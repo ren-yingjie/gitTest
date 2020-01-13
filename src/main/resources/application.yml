@@ -1,0 +1,32 @@
+server:
+  servlet:
+    context-path: /api-supplier-service
+  port: 50888
+spring:
+  application:
+    name: api-supplier-service
+  profiles:
+    include: jdbc, settings
+feign:
+  httpclient:
+    enabled: true
+  hystrix:
+    enabled: true
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 3000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+mybatis:
+  typeAliasesPackage: com.zhongwang.data
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+      

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierPeculiarityMonitorMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierPeculiarityMonitor" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="evaluate_time" property="evaluateTime" jdbcType="VARCHAR" />
+    <result column="evaluate_index" property="evaluateIndex" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="evaluate_direction" property="evaluateDirection" jdbcType="VARCHAR" />
+    <result column="change_info" property="changeInfo" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+ <select id="selectSupplierPeculiarityMonitor"  resultMap="BaseResultMap"  parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+      select * from  supplier_peculiarity_monitor  where company_id=#{companyId}
+      <if test="monitorTime !=null  and monitorTime !=''">
+          and evaluate_time=#{monitorTime}
+      </if>
+      <if test="supplierName !=null  and supplierName !=''">
+          and supplier_name like #{supplierName}
+      </if>
+
+ </select>
+
+
+</mapper>

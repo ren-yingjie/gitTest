@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierZs0158Mapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierZs0158" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="court" property="court" jdbcType="VARCHAR" />
+    <result column="searchType" property="searchtype" jdbcType="VARCHAR" />
+    <result column="casereason" property="casereason" jdbcType="VARCHAR" />
+    <result column="caseno" property="caseno" jdbcType="VARCHAR" />
+    <result column="_type" property="type" jdbcType="VARCHAR" />
+    <result column="dyid" property="dyid" jdbcType="VARCHAR" />
+    <result column="docid" property="docid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="appelleeId" property="appelleeid" jdbcType="VARCHAR" />
+    <result column="abstracts" property="abstracts" jdbcType="VARCHAR" />
+    <result column="submittime" property="submittime" jdbcType="VARCHAR" />
+    <result column="defendantId" property="defendantid" jdbcType="VARCHAR" />
+    <result column="casetype" property="casetype" jdbcType="VARCHAR" />
+    <result column="appellantId" property="appellantid" jdbcType="VARCHAR" />
+    <result column="eventTime" property="eventtime" jdbcType="VARCHAR" />
+    <result column="doctype" property="doctype" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="thirdParties" property="thirdparties" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhongwang.data.entity.SupplierZs0158WithBLOBs" extends="BaseResultMap" >
+    <result column="plaintiffs" property="plaintiffs" jdbcType="LONGVARCHAR" />
+    <result column="plaintiffId" property="plaintiffid" jdbcType="LONGVARCHAR" />
+    <result column="uni" property="uni" jdbcType="LONGVARCHAR" />
+    <result column="connList" property="connlist" jdbcType="LONGVARCHAR" />
+    <result column="lawsuitUrl" property="lawsuiturl" jdbcType="LONGVARCHAR" />
+    <result column="defendants" property="defendants" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, company_id, supplier_id, court, searchType, casereason, caseno, _type, dyid, 
+    docid, title, appelleeId, abstracts, submittime, defendantId, casetype, appellantId, 
+    eventTime, doctype, agent, thirdParties, num, add_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    plaintiffs, plaintiffId, uni, connList, lawsuitUrl, defendants
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.zhongwang.data.entity.SupplierZs0158Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier_zs0158
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zhongwang.data.entity.SupplierZs0158Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier_zs0158
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier_zs0158
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_zs0158
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhongwang.data.entity.SupplierZs0158Example" >
+    delete from supplier_zs0158
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierZs0158WithBLOBs" >
+    insert into supplier_zs0158 (id, company_id, supplier_id, 
+      court, searchType, casereason, 
+      caseno, _type, dyid, 
+      docid, title, appelleeId, 
+      abstracts, submittime, defendantId, 
+      casetype, appellantId, eventTime, 
+      doctype, agent, thirdParties, 
+      num, add_time, plaintiffs, 
+      plaintiffId, uni, connList, 
+      lawsuitUrl, defendants)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{court,jdbcType=VARCHAR}, #{searchtype,jdbcType=VARCHAR}, #{casereason,jdbcType=VARCHAR}, 
+      #{caseno,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{dyid,jdbcType=VARCHAR}, 
+      #{docid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{appelleeid,jdbcType=VARCHAR}, 
+      #{abstracts,jdbcType=VARCHAR}, #{submittime,jdbcType=VARCHAR}, #{defendantid,jdbcType=VARCHAR}, 
+      #{casetype,jdbcType=VARCHAR}, #{appellantid,jdbcType=VARCHAR}, #{eventtime,jdbcType=VARCHAR}, 
+      #{doctype,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{thirdparties,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{plaintiffs,jdbcType=LONGVARCHAR}, 
+      #{plaintiffid,jdbcType=LONGVARCHAR}, #{uni,jdbcType=LONGVARCHAR}, #{connlist,jdbcType=LONGVARCHAR}, 
+      #{lawsuiturl,jdbcType=LONGVARCHAR}, #{defendants,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierZs0158WithBLOBs" >
+    insert into supplier_zs0158
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="court != null" >
+        court,
+      </if>
+      <if test="searchtype != null" >
+        searchType,
+      </if>
+      <if test="casereason != null" >
+        casereason,
+      </if>
+      <if test="caseno != null" >
+        caseno,
+      </if>
+      <if test="type != null" >
+        _type,
+      </if>
+      <if test="dyid != null" >
+        dyid,
+      </if>
+      <if test="docid != null" >
+        docid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="appelleeid != null" >
+        appelleeId,
+      </if>
+      <if test="abstracts != null" >
+        abstracts,
+      </if>
+      <if test="submittime != null" >
+        submittime,
+      </if>
+      <if test="defendantid != null" >
+        defendantId,
+      </if>
+      <if test="casetype != null" >
+        casetype,
+      </if>
+      <if test="appellantid != null" >
+        appellantId,
+      </if>
+      <if test="eventtime != null" >
+        eventTime,
+      </if>
+      <if test="doctype != null" >
+        doctype,
+      </if>
+      <if test="agent != null" >
+        agent,
+      </if>
+      <if test="thirdparties != null" >
+        thirdParties,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="plaintiffs != null" >
+        plaintiffs,
+      </if>
+      <if test="plaintiffid != null" >
+        plaintiffId,
+      </if>
+      <if test="uni != null" >
+        uni,
+      </if>
+      <if test="connlist != null" >
+        connList,
+      </if>
+      <if test="lawsuiturl != null" >
+        lawsuitUrl,
+      </if>
+      <if test="defendants != null" >
+        defendants,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="court != null" >
+        #{court,jdbcType=VARCHAR},
+      </if>
+      <if test="searchtype != null" >
+        #{searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="casereason != null" >
+        #{casereason,jdbcType=VARCHAR},
+      </if>
+      <if test="caseno != null" >
+        #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dyid != null" >
+        #{dyid,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        #{docid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appelleeid != null" >
+        #{appelleeid,jdbcType=VARCHAR},
+      </if>
+      <if test="abstracts != null" >
+        #{abstracts,jdbcType=VARCHAR},
+      </if>
+      <if test="submittime != null" >
+        #{submittime,jdbcType=VARCHAR},
+      </if>
+      <if test="defendantid != null" >
+        #{defendantid,jdbcType=VARCHAR},
+      </if>
+      <if test="casetype != null" >
+        #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantid != null" >
+        #{appellantid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventtime != null" >
+        #{eventtime,jdbcType=VARCHAR},
+      </if>
+      <if test="doctype != null" >
+        #{doctype,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdparties != null" >
+        #{thirdparties,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plaintiffs != null" >
+        #{plaintiffs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="plaintiffid != null" >
+        #{plaintiffid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="uni != null" >
+        #{uni,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="connlist != null" >
+        #{connlist,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lawsuiturl != null" >
+        #{lawsuiturl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="defendants != null" >
+        #{defendants,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zhongwang.data.entity.SupplierZs0158Example" resultType="java.lang.Integer" >
+    select count(*) from supplier_zs0158
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier_zs0158
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.court != null" >
+        court = #{record.court,jdbcType=VARCHAR},
+      </if>
+      <if test="record.searchtype != null" >
+        searchType = #{record.searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.casereason != null" >
+        casereason = #{record.casereason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseno != null" >
+        caseno = #{record.caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        _type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dyid != null" >
+        dyid = #{record.dyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docid != null" >
+        docid = #{record.docid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appelleeid != null" >
+        appelleeId = #{record.appelleeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abstracts != null" >
+        abstracts = #{record.abstracts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submittime != null" >
+        submittime = #{record.submittime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defendantid != null" >
+        defendantId = #{record.defendantid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.casetype != null" >
+        casetype = #{record.casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appellantid != null" >
+        appellantId = #{record.appellantid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventtime != null" >
+        eventTime = #{record.eventtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctype != null" >
+        doctype = #{record.doctype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agent != null" >
+        agent = #{record.agent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdparties != null" >
+        thirdParties = #{record.thirdparties,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null" >
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.plaintiffs != null" >
+        plaintiffs = #{record.plaintiffs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.plaintiffid != null" >
+        plaintiffId = #{record.plaintiffid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.uni != null" >
+        uni = #{record.uni,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.connlist != null" >
+        connList = #{record.connlist,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.lawsuiturl != null" >
+        lawsuitUrl = #{record.lawsuiturl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.defendants != null" >
+        defendants = #{record.defendants,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update supplier_zs0158
+    set id = #{record.id,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      court = #{record.court,jdbcType=VARCHAR},
+      searchType = #{record.searchtype,jdbcType=VARCHAR},
+      casereason = #{record.casereason,jdbcType=VARCHAR},
+      caseno = #{record.caseno,jdbcType=VARCHAR},
+      _type = #{record.type,jdbcType=VARCHAR},
+      dyid = #{record.dyid,jdbcType=VARCHAR},
+      docid = #{record.docid,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      appelleeId = #{record.appelleeid,jdbcType=VARCHAR},
+      abstracts = #{record.abstracts,jdbcType=VARCHAR},
+      submittime = #{record.submittime,jdbcType=VARCHAR},
+      defendantId = #{record.defendantid,jdbcType=VARCHAR},
+      casetype = #{record.casetype,jdbcType=VARCHAR},
+      appellantId = #{record.appellantid,jdbcType=VARCHAR},
+      eventTime = #{record.eventtime,jdbcType=VARCHAR},
+      doctype = #{record.doctype,jdbcType=VARCHAR},
+      agent = #{record.agent,jdbcType=VARCHAR},
+      thirdParties = #{record.thirdparties,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      plaintiffs = #{record.plaintiffs,jdbcType=LONGVARCHAR},
+      plaintiffId = #{record.plaintiffid,jdbcType=LONGVARCHAR},
+      uni = #{record.uni,jdbcType=LONGVARCHAR},
+      connList = #{record.connlist,jdbcType=LONGVARCHAR},
+      lawsuitUrl = #{record.lawsuiturl,jdbcType=LONGVARCHAR},
+      defendants = #{record.defendants,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier_zs0158
+    set id = #{record.id,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      court = #{record.court,jdbcType=VARCHAR},
+      searchType = #{record.searchtype,jdbcType=VARCHAR},
+      casereason = #{record.casereason,jdbcType=VARCHAR},
+      caseno = #{record.caseno,jdbcType=VARCHAR},
+      _type = #{record.type,jdbcType=VARCHAR},
+      dyid = #{record.dyid,jdbcType=VARCHAR},
+      docid = #{record.docid,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      appelleeId = #{record.appelleeid,jdbcType=VARCHAR},
+      abstracts = #{record.abstracts,jdbcType=VARCHAR},
+      submittime = #{record.submittime,jdbcType=VARCHAR},
+      defendantId = #{record.defendantid,jdbcType=VARCHAR},
+      casetype = #{record.casetype,jdbcType=VARCHAR},
+      appellantId = #{record.appellantid,jdbcType=VARCHAR},
+      eventTime = #{record.eventtime,jdbcType=VARCHAR},
+      doctype = #{record.doctype,jdbcType=VARCHAR},
+      agent = #{record.agent,jdbcType=VARCHAR},
+      thirdParties = #{record.thirdparties,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierZs0158WithBLOBs" >
+    update supplier_zs0158
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="court != null" >
+        court = #{court,jdbcType=VARCHAR},
+      </if>
+      <if test="searchtype != null" >
+        searchType = #{searchtype,jdbcType=VARCHAR},
+      </if>
+      <if test="casereason != null" >
+        casereason = #{casereason,jdbcType=VARCHAR},
+      </if>
+      <if test="caseno != null" >
+        caseno = #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        _type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="dyid != null" >
+        dyid = #{dyid,jdbcType=VARCHAR},
+      </if>
+      <if test="docid != null" >
+        docid = #{docid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appelleeid != null" >
+        appelleeId = #{appelleeid,jdbcType=VARCHAR},
+      </if>
+      <if test="abstracts != null" >
+        abstracts = #{abstracts,jdbcType=VARCHAR},
+      </if>
+      <if test="submittime != null" >
+        submittime = #{submittime,jdbcType=VARCHAR},
+      </if>
+      <if test="defendantid != null" >
+        defendantId = #{defendantid,jdbcType=VARCHAR},
+      </if>
+      <if test="casetype != null" >
+        casetype = #{casetype,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantid != null" >
+        appellantId = #{appellantid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventtime != null" >
+        eventTime = #{eventtime,jdbcType=VARCHAR},
+      </if>
+      <if test="doctype != null" >
+        doctype = #{doctype,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdparties != null" >
+        thirdParties = #{thirdparties,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plaintiffs != null" >
+        plaintiffs = #{plaintiffs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="plaintiffid != null" >
+        plaintiffId = #{plaintiffid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="uni != null" >
+        uni = #{uni,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="connlist != null" >
+        connList = #{connlist,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lawsuiturl != null" >
+        lawsuitUrl = #{lawsuiturl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="defendants != null" >
+        defendants = #{defendants,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhongwang.data.entity.SupplierZs0158WithBLOBs" >
+    update supplier_zs0158
+    set company_id = #{companyId,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      court = #{court,jdbcType=VARCHAR},
+      searchType = #{searchtype,jdbcType=VARCHAR},
+      casereason = #{casereason,jdbcType=VARCHAR},
+      caseno = #{caseno,jdbcType=VARCHAR},
+      _type = #{type,jdbcType=VARCHAR},
+      dyid = #{dyid,jdbcType=VARCHAR},
+      docid = #{docid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      appelleeId = #{appelleeid,jdbcType=VARCHAR},
+      abstracts = #{abstracts,jdbcType=VARCHAR},
+      submittime = #{submittime,jdbcType=VARCHAR},
+      defendantId = #{defendantid,jdbcType=VARCHAR},
+      casetype = #{casetype,jdbcType=VARCHAR},
+      appellantId = #{appellantid,jdbcType=VARCHAR},
+      eventTime = #{eventtime,jdbcType=VARCHAR},
+      doctype = #{doctype,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      thirdParties = #{thirdparties,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      plaintiffs = #{plaintiffs,jdbcType=LONGVARCHAR},
+      plaintiffId = #{plaintiffid,jdbcType=LONGVARCHAR},
+      uni = #{uni,jdbcType=LONGVARCHAR},
+      connList = #{connlist,jdbcType=LONGVARCHAR},
+      lawsuitUrl = #{lawsuiturl,jdbcType=LONGVARCHAR},
+      defendants = #{defendants,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierZs0158" >
+    update supplier_zs0158
+    set company_id = #{companyId,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      court = #{court,jdbcType=VARCHAR},
+      searchType = #{searchtype,jdbcType=VARCHAR},
+      casereason = #{casereason,jdbcType=VARCHAR},
+      caseno = #{caseno,jdbcType=VARCHAR},
+      _type = #{type,jdbcType=VARCHAR},
+      dyid = #{dyid,jdbcType=VARCHAR},
+      docid = #{docid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      appelleeId = #{appelleeid,jdbcType=VARCHAR},
+      abstracts = #{abstracts,jdbcType=VARCHAR},
+      submittime = #{submittime,jdbcType=VARCHAR},
+      defendantId = #{defendantid,jdbcType=VARCHAR},
+      casetype = #{casetype,jdbcType=VARCHAR},
+      appellantId = #{appellantid,jdbcType=VARCHAR},
+      eventTime = #{eventtime,jdbcType=VARCHAR},
+      doctype = #{doctype,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      thirdParties = #{thirdparties,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierExponentInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierExponentInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_index_type" property="supplierIndexType" jdbcType="VARCHAR" />
+    <result column="month1" property="month1" jdbcType="VARCHAR" />
+    <result column="month2" property="month2" jdbcType="VARCHAR" />
+    <result column="month3" property="month3" jdbcType="VARCHAR" />
+    <result column="month4" property="month4" jdbcType="VARCHAR" />
+    <result column="month5" property="month5" jdbcType="VARCHAR" />
+    <result column="month6" property="month6" jdbcType="VARCHAR" />
+    <result column="month7" property="month7" jdbcType="VARCHAR" />
+    <result column="month8" property="month8" jdbcType="VARCHAR" />
+    <result column="month9" property="month9" jdbcType="VARCHAR" />
+    <result column="month10" property="month10" jdbcType="VARCHAR" />
+    <result column="month11" property="month11" jdbcType="VARCHAR" />
+    <result column="month12" property="month12" jdbcType="VARCHAR" />
+    <result column="IndexTrend" property="IndexTrend" jdbcType="VARCHAR" />
+    <result column="capabilityIndex" property="capabilityIndex" jdbcType="VARCHAR" />
+    <result column="index_year_time" property="indexYearTime" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="lvyueIndex"   jdbcType="LONGVARCHAR" property="lvyueIndex" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_id,  supplier_index_type, month1, month2, month3, month4,
+    month5, month6, month7, month8, month9, month10, month11, month12, index_year_time, 
+    add_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_exponent_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--供应商履约指数查询-->
+  <select id="selectByLvYueindex" resultType="com.zhongwang.data.entity.SupplierExponentInfo" parameterType="com.zhongwang.data.entity.SupplierExponentInfo">
+      select info.month1 as month1,info.month2 as month2,info.month3 as month3,info.month4 as month4,info.month5 as month5,
+      info.month6 as month6,info.month7 as month7,info.month8 as month8,info.month9 as month9,info.month10 as month10,
+      info.month11 as month11,info.month12 as month12,info.IndexTrend,info.capabilityIndex,war.sopplier_count_warning as lvyueIndex
+      from supplier_exponent_info as info,(select * from supplier_warning_info) as war where
+      info.supplier_index_type = '1' and info.index_year_time=#{indexYearTime} and
+      info.company_id= #{companyId} and war.company_id= #{companyId}
+  </select>
+  <!--供应商稳定指数-->
+  <select id="selectByWenDingindex" resultType="com.zhongwang.data.entity.SupplierExponentInfo" parameterType="com.zhongwang.data.entity.SupplierExponentInfo">
+      select info.month1 as month1,info.month2 as month2,info.month3 as month3,info.month4 as month4,info.month5 as month5,
+      info.month6 as month6,info.month7 as month7,info.month8 as month8,info.month9 as month9,info.month10 as month10,
+      info.month11 as month11,info.month12 as month12,info.IndexTrend,info.capabilityIndex,war.stabilize_index_warning as lvyueIndex
+      from supplier_exponent_info as info,(select * from supplier_warning_info) as war where
+      info.supplier_index_type = '2' and info.index_year_time=#{indexYearTime} and
+      info.company_id= #{companyId} and war.company_id= #{companyId}
+  </select>
+  <!--供应商风险指数-->
+  <select id="selectByFengXianindex" resultType="com.zhongwang.data.entity.SupplierExponentInfo" parameterType="com.zhongwang.data.entity.SupplierExponentInfo">
+      select info.month1 as month1,info.month2 as month2,info.month3 as month3,info.month4 as month4,info.month5 as month5,
+      info.month6 as month6,info.month7 as month7,info.month8 as month8,info.month9 as month9,info.month10 as month10,
+      info.month11 as month11,info.month12 as month12,info.IndexTrend,info.capabilityIndex,war.sopplier_count_warning as lvyueIndex
+      from supplier_exponent_info as info,(select * from supplier_warning_info) as war where
+      info.supplier_index_type = '3' and info.index_year_time=#{indexYearTime} and
+      info.company_id= #{companyId} and war.company_id= #{companyId}
+  </select>
+  <!--供应商成长指数-->
+  <select id="selectByChengZhangindex" resultType="com.zhongwang.data.entity.SupplierExponentInfo" parameterType="com.zhongwang.data.entity.SupplierExponentInfo">
+      select info.month1 as month1,info.month2 as month2,info.month3 as month3,info.month4 as month4,info.month5 as month5,
+      info.month6 as month6,info.month7 as month7,info.month8 as month8,info.month9 as month9,info.month10 as month10,
+      info.month11 as month11,info.month12 as month12,info.IndexTrend,info.capabilityIndex,war.sopplier_count_warning as lvyueIndex
+      from supplier_exponent_info as info,(select * from supplier_warning_info) as war where
+      info.supplier_index_type = '4' and info.index_year_time=#{indexYearTime} and
+      info.company_id= #{companyId} and war.company_id= #{companyId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_exponent_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierExponentInfo" >
+    insert into supplier_exponent_info (id, company_id,
+      supplier_index_type, month1, month2, 
+      month3, month4, month5, 
+      month6, month7, month8, 
+      month9, month10, month11, 
+      month12, index_year_time, add_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR},
+      #{supplierIndexType,jdbcType=VARCHAR}, #{month1,jdbcType=VARCHAR}, #{month2,jdbcType=VARCHAR}, 
+      #{month3,jdbcType=VARCHAR}, #{month4,jdbcType=VARCHAR}, #{month5,jdbcType=VARCHAR}, 
+      #{month6,jdbcType=VARCHAR}, #{month7,jdbcType=VARCHAR}, #{month8,jdbcType=VARCHAR}, 
+      #{month9,jdbcType=VARCHAR}, #{month10,jdbcType=VARCHAR}, #{month11,jdbcType=VARCHAR}, 
+      #{month12,jdbcType=VARCHAR}, #{indexYearTime,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierExponentInfo" >
+    insert into supplier_exponent_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierIndexType != null" >
+        supplier_index_type,
+      </if>
+      <if test="month1 != null" >
+        month1,
+      </if>
+      <if test="month2 != null" >
+        month2,
+      </if>
+      <if test="month3 != null" >
+        month3,
+      </if>
+      <if test="month4 != null" >
+        month4,
+      </if>
+      <if test="month5 != null" >
+        month5,
+      </if>
+      <if test="month6 != null" >
+        month6,
+      </if>
+      <if test="month7 != null" >
+        month7,
+      </if>
+      <if test="month8 != null" >
+        month8,
+      </if>
+      <if test="month9 != null" >
+        month9,
+      </if>
+      <if test="month10 != null" >
+        month10,
+      </if>
+      <if test="month11 != null" >
+        month11,
+      </if>
+      <if test="month12 != null" >
+        month12,
+      </if>
+      <if test="indexYearTime != null" >
+        index_year_time,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierIndexType != null" >
+        #{supplierIndexType,jdbcType=VARCHAR},
+      </if>
+      <if test="month1 != null" >
+        #{month1,jdbcType=VARCHAR},
+      </if>
+      <if test="month2 != null" >
+        #{month2,jdbcType=VARCHAR},
+      </if>
+      <if test="month3 != null" >
+        #{month3,jdbcType=VARCHAR},
+      </if>
+      <if test="month4 != null" >
+        #{month4,jdbcType=VARCHAR},
+      </if>
+      <if test="month5 != null" >
+        #{month5,jdbcType=VARCHAR},
+      </if>
+      <if test="month6 != null" >
+        #{month6,jdbcType=VARCHAR},
+      </if>
+      <if test="month7 != null" >
+        #{month7,jdbcType=VARCHAR},
+      </if>
+      <if test="month8 != null" >
+        #{month8,jdbcType=VARCHAR},
+      </if>
+      <if test="month9 != null" >
+        #{month9,jdbcType=VARCHAR},
+      </if>
+      <if test="month10 != null" >
+        #{month10,jdbcType=VARCHAR},
+      </if>
+      <if test="month11 != null" >
+        #{month11,jdbcType=VARCHAR},
+      </if>
+      <if test="month12 != null" >
+        #{month12,jdbcType=VARCHAR},
+      </if>
+      <if test="indexYearTime != null" >
+        #{indexYearTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierExponentInfo" >
+    update supplier_exponent_info
+    <set >
+      <if test="supplierIndexType != null" >
+        supplier_index_type = #{supplierIndexType,jdbcType=VARCHAR},
+      </if>
+      <if test="month1 != null" >
+        month1 = #{month1,jdbcType=VARCHAR},
+      </if>
+      <if test="month2 != null" >
+        month2 = #{month2,jdbcType=VARCHAR},
+      </if>
+      <if test="month3 != null" >
+        month3 = #{month3,jdbcType=VARCHAR},
+      </if>
+      <if test="month4 != null" >
+        month4 = #{month4,jdbcType=VARCHAR},
+      </if>
+      <if test="month5 != null" >
+        month5 = #{month5,jdbcType=VARCHAR},
+      </if>
+      <if test="month6 != null" >
+        month6 = #{month6,jdbcType=VARCHAR},
+      </if>
+      <if test="month7 != null" >
+        month7 = #{month7,jdbcType=VARCHAR},
+      </if>
+      <if test="month8 != null" >
+        month8 = #{month8,jdbcType=VARCHAR},
+      </if>
+      <if test="month9 != null" >
+        month9 = #{month9,jdbcType=VARCHAR},
+      </if>
+      <if test="month10 != null" >
+        month10 = #{month10,jdbcType=VARCHAR},
+      </if>
+      <if test="month11 != null" >
+        month11 = #{month11,jdbcType=VARCHAR},
+      </if>
+      <if test="month12 != null" >
+        month12 = #{month12,jdbcType=VARCHAR},
+      </if>
+      <if test="indexYearTime != null" >
+        index_year_time = #{indexYearTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierExponentInfo" >
+    update supplier_exponent_info
+    set
+      supplier_index_type = #{supplierIndexType,jdbcType=VARCHAR},
+      month1 = #{month1,jdbcType=VARCHAR},
+      month2 = #{month2,jdbcType=VARCHAR},
+      month3 = #{month3,jdbcType=VARCHAR},
+      month4 = #{month4,jdbcType=VARCHAR},
+      month5 = #{month5,jdbcType=VARCHAR},
+      month6 = #{month6,jdbcType=VARCHAR},
+      month7 = #{month7,jdbcType=VARCHAR},
+      month8 = #{month8,jdbcType=VARCHAR},
+      month9 = #{month9,jdbcType=VARCHAR},
+      month10 = #{month10,jdbcType=VARCHAR},
+      month11 = #{month11,jdbcType=VARCHAR},
+      month12 = #{month12,jdbcType=VARCHAR},
+      index_year_time = #{indexYearTime,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

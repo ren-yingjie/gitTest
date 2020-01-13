@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierParamInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierParamInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="parameter_coding" property="parameterCoding" jdbcType="VARCHAR" />
+    <result column="parameter_type" property="parameterType" jdbcType="VARCHAR" />
+    <result column="parameter_name" property="parameterName" jdbcType="VARCHAR" />
+    <result column="parameter_description" property="parameterDescription" jdbcType="VARCHAR" />
+    <result column="parameter_values" property="parameterValues" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    id, uuid, company_id, add_time, update_time, parameter_coding, parameter_type, parameter_name, 
+    parameter_description, parameter_values, status
+  </sql>
+
+
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierParamInfo" >
+    insert into supplier_param_info (id, uuid, company_id, 
+      add_time, update_time, parameter_coding, 
+      parameter_type, parameter_name, parameter_description, 
+      parameter_values, status)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{parameterCoding,jdbcType=VARCHAR}, 
+      #{parameterType,jdbcType=VARCHAR}, #{parameterName,jdbcType=VARCHAR}, #{parameterDescription,jdbcType=VARCHAR}, 
+      #{parameterValues,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierParamInfo" >
+    insert into supplier_param_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="parameterCoding != null" >
+        parameter_coding,
+      </if>
+      <if test="parameterType != null" >
+        parameter_type,
+      </if>
+      <if test="parameterName != null" >
+        parameter_name,
+      </if>
+      <if test="parameterDescription != null" >
+        parameter_description,
+      </if>
+      <if test="parameterValues != null" >
+        parameter_values,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameterCoding != null" >
+        #{parameterCoding,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterName != null" >
+        #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterDescription != null" >
+        #{parameterDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValues != null" >
+        #{parameterValues,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierParamInfo" >
+    update supplier_param_info
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameterCoding != null" >
+        parameter_coding = #{parameterCoding,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        parameter_type = #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterName != null" >
+        parameter_name = #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterDescription != null" >
+        parameter_description = #{parameterDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValues != null" >
+        parameter_values = #{parameterValues,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierParamInfo" >
+    update supplier_param_info
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      parameter_coding = #{parameterCoding,jdbcType=VARCHAR},
+      parameter_type = #{parameterType,jdbcType=VARCHAR},
+      parameter_name = #{parameterName,jdbcType=VARCHAR},
+      parameter_description = #{parameterDescription,jdbcType=VARCHAR},
+      parameter_values = #{parameterValues,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

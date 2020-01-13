@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierSubsciribedInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierSubsciribedInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="shareholder_type" property="shareholderType" jdbcType="VARCHAR" />
+    <result column="shareholder_name" property="shareholderName" jdbcType="VARCHAR" />
+    <result column="subscribed_way" property="subscribedWay" jdbcType="VARCHAR" />
+    <result column="subscribed_amount" property="subscribedAmount" jdbcType="VARCHAR" />
+    <result column="share_scale" property="shareScale" jdbcType="VARCHAR" />
+    <result column="change_situation" property="changeSituation" jdbcType="VARCHAR" />
+  </resultMap>
+    <select id="selectSupplierSubsciribedInfo" resultMap="BaseResultMap" >
+      select * from   supplier_subsciribed_info where company_id=#{companyId}
+      <if test="supplierName !=null  and supplierName !=''">
+         and supplier_name  like  #{supplierName}
+      </if>
+
+    </select>
+</mapper>

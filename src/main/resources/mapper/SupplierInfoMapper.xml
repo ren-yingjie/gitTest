@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="staffNumRange" property="staffnumrange" jdbcType="VARCHAR" />
+    <result column="fromTime" property="fromtime" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="isMicroEnt" property="ismicroent" jdbcType="VARCHAR" />
+    <result column="regNumber" property="regnumber" jdbcType="VARCHAR" />
+    <result column="percentileScore" property="percentilescore" jdbcType="VARCHAR" />
+    <result column="regCapital" property="regcapital" jdbcType="VARCHAR" />
+    <result column="regInstitute" property="reginstitute" jdbcType="VARCHAR" />
+    <result column="regLocation" property="reglocation" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="approvedTime" property="approvedtime" jdbcType="VARCHAR" />
+    <result column="socialStaffNum" property="socialstaffnum" jdbcType="VARCHAR" />
+    <result column="taxNumber" property="taxnumber" jdbcType="VARCHAR" />
+    <result column="orgNumber" property="orgnumber" jdbcType="VARCHAR" />
+    <result column="regStatus" property="regstatus" jdbcType="VARCHAR" />
+    <result column="estiblishTime" property="estiblishtime" jdbcType="VARCHAR" />
+    <result column="legalPersonName" property="legalpersonname" jdbcType="VARCHAR" />
+    <result column="toTime" property="totime" jdbcType="VARCHAR" />
+    <result column="actualCapital" property="actualcapital" jdbcType="VARCHAR" />
+    <result column="companyOrgType" property="companyorgtype" jdbcType="VARCHAR" />
+    <result column="creditCode" property="creditcode" jdbcType="VARCHAR" />
+    <result column="actualCapitalCurrency" property="actualcapitalcurrency" jdbcType="VARCHAR" />
+    <result column="orgApprovedInstitute" property="orgapprovedinstitute" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="websiteList" property="websitelist" jdbcType="VARCHAR" />
+    <result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
+    <result column="territory" property="territory" jdbcType="VARCHAR" />
+    <result column="internal_rating" property="internalRating" jdbcType="VARCHAR" />
+    <result column="for_time" property="forTime" jdbcType="VARCHAR" />
+    <result column="failure_time" property="failureTime" jdbcType="VARCHAR" />
+    <result column="supplier_status" property="supplierStatus" jdbcType="VARCHAR" />
+    <result column="inspect_status" property="inspectStatus" jdbcType="VARCHAR" />
+    <result column="risk_state" property="riskState" jdbcType="VARCHAR" />
+    <result column="collect_type" property="collectType" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    id, supplier_id, company_id,supplier_name, add_time, staffNumRange, fromTime, type, isMicroEnt,
+    regNumber, percentileScore, regCapital, regInstitute, regLocation, industry, approvedTime, 
+    socialStaffNum, taxNumber, orgNumber, regStatus, estiblishTime, legalPersonName, 
+    toTime, actualCapital, companyOrgType, creditCode, actualCapitalCurrency, orgApprovedInstitute, 
+    email, websiteList, phoneNumber, territory, internal_rating, for_time, failure_time, 
+    supplier_status, inspect_status, risk_state, collect_type
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--供应商总览-->
+  <select id="selectByPandect" resultType="com.zhongwang.data.vo.SupplierOverview" parameterType="com.zhongwang.data.vo.SupplierOverview">
+      select count(*) as infoCont,
+      (select count(*) from suppliser_rish_info
+      where warning_date=#{warningDate} and company_id=#{companyId})as rishCont,
+      (select count(*) from supplier_high_risk_info where warning_date=#{warningDate}
+      and company_id=#{companyId}) as heighCont
+      from supplier_info
+      where company_id=#{companyId}
+  </select>
+  <!--查询供应商管理总数-->
+  <select id="SupplierInfoCont" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM supplier_info
+    <where>
+      <if test="supplierName != null and supplierName != ''">
+        AND supplier_name LIKE #{supplierName}
+      </if>
+      <if test="internalRating != null and internalRating != ''">
+        AND internal_rating LIKE #{internalRating}
+      </if>
+      <if test="supplierStatus != null and supplierStatus != ''">
+        AND supplier_status LIKE #{supplierStatus}
+      </if>
+      <if test="territory != null and territory != ''">
+        AND territory LIKE #{territory}
+      </if>
+        AND company_id=#{companyId}
+    </where>
+  </select>
+  <!--查询企业列表-->
+  <select id="selectBySupplierName" resultType="com.zhongwang.data.entity.Territory" parameterType="java.lang.String">
+      select supplier_name as proName from supplier_info where company_id=#{companyId}
+  </select>
+  <!--供应商信息管理-->
+  <select id="selectBySupplierInfo"  parameterType="java.lang.String" resultType="com.zhongwang.data.entity.SupplierInfo">
+    select supplier_name as supplierName ,internal_rating as internalRating,supplier_status as supplierStatus,territory as territory,for_time as forTime,failure_time as failureTime
+    from supplier_info
+    <where>
+      <if test="companyId != null and companyId != ''">
+        AND company_id LIKE #{companyId}
+      </if>
+      <if test="supplierName != null and supplierName != ''">
+        AND supplier_name LIKE #{supplierName}
+      </if>
+      <if test="internalRating != null and internalRating != ''">
+        AND internal_rating LIKE #{internalRating}
+      </if>
+      <if test="supplierStatus != null and supplierStatus != ''">
+        AND supplier_status LIKE #{supplierStatus}
+      </if>
+      <if test="territory != null and territory != ''">
+        AND territory LIKE #{territory}
+      </if>
+    </where>
+      limit #{index},#{currentCount}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierInfo" >
+    insert into supplier_info (id,company_id, supplier_id, supplier_name,
+      add_time, staffNumRange, fromTime, 
+      type, isMicroEnt, regNumber, 
+      percentileScore, regCapital, regInstitute, 
+      regLocation, industry, approvedTime, 
+      socialStaffNum, taxNumber, orgNumber, 
+      regStatus, estiblishTime, legalPersonName, 
+      toTime, actualCapital, companyOrgType, 
+      creditCode, actualCapitalCurrency, orgApprovedInstitute, 
+      email, websiteList, phoneNumber, 
+      territory, internal_rating, for_time, 
+      failure_time, supplier_status, inspect_status, 
+      risk_state, collect_type)
+    values (#{id,jdbcType=INTEGER},  #{companyId,jdbcType=VARCHAR},#{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR},
+      #{addTime,jdbcType=TIMESTAMP}, #{staffnumrange,jdbcType=VARCHAR}, #{fromtime,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{ismicroent,jdbcType=VARCHAR}, #{regnumber,jdbcType=VARCHAR}, 
+      #{percentilescore,jdbcType=VARCHAR}, #{regcapital,jdbcType=VARCHAR}, #{reginstitute,jdbcType=VARCHAR}, 
+      #{reglocation,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{approvedtime,jdbcType=VARCHAR}, 
+      #{socialstaffnum,jdbcType=VARCHAR}, #{taxnumber,jdbcType=VARCHAR}, #{orgnumber,jdbcType=VARCHAR}, 
+      #{regstatus,jdbcType=VARCHAR}, #{estiblishtime,jdbcType=VARCHAR}, #{legalpersonname,jdbcType=VARCHAR}, 
+      #{totime,jdbcType=VARCHAR}, #{actualcapital,jdbcType=VARCHAR}, #{companyorgtype,jdbcType=VARCHAR}, 
+      #{creditcode,jdbcType=VARCHAR}, #{actualcapitalcurrency,jdbcType=VARCHAR}, #{orgapprovedinstitute,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{websitelist,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
+      #{territory,jdbcType=VARCHAR}, #{internalRating,jdbcType=VARCHAR}, #{forTime,jdbcType=VARCHAR}, 
+      #{failureTime,jdbcType=VARCHAR}, #{supplierStatus,jdbcType=VARCHAR}, #{inspectStatus,jdbcType=VARCHAR}, 
+      #{riskState,jdbcType=VARCHAR}, #{collectType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierInfo" >
+    insert into supplier_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="staffnumrange != null" >
+        staffNumRange,
+      </if>
+      <if test="fromtime != null" >
+        fromTime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="ismicroent != null" >
+        isMicroEnt,
+      </if>
+      <if test="regnumber != null" >
+        regNumber,
+      </if>
+      <if test="percentilescore != null" >
+        percentileScore,
+      </if>
+      <if test="regcapital != null" >
+        regCapital,
+      </if>
+      <if test="reginstitute != null" >
+        regInstitute,
+      </if>
+      <if test="reglocation != null" >
+        regLocation,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="approvedtime != null" >
+        approvedTime,
+      </if>
+      <if test="socialstaffnum != null" >
+        socialStaffNum,
+      </if>
+      <if test="taxnumber != null" >
+        taxNumber,
+      </if>
+      <if test="orgnumber != null" >
+        orgNumber,
+      </if>
+      <if test="regstatus != null" >
+        regStatus,
+      </if>
+      <if test="estiblishtime != null" >
+        estiblishTime,
+      </if>
+      <if test="legalpersonname != null" >
+        legalPersonName,
+      </if>
+      <if test="totime != null" >
+        toTime,
+      </if>
+      <if test="actualcapital != null" >
+        actualCapital,
+      </if>
+      <if test="companyorgtype != null" >
+        companyOrgType,
+      </if>
+      <if test="creditcode != null" >
+        creditCode,
+      </if>
+      <if test="actualcapitalcurrency != null" >
+        actualCapitalCurrency,
+      </if>
+      <if test="orgapprovedinstitute != null" >
+        orgApprovedInstitute,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="websitelist != null" >
+        websiteList,
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber,
+      </if>
+      <if test="territory != null" >
+        territory,
+      </if>
+      <if test="internalRating != null" >
+        internal_rating,
+      </if>
+      <if test="forTime != null" >
+        for_time,
+      </if>
+      <if test="failureTime != null" >
+        failure_time,
+      </if>
+      <if test="supplierStatus != null" >
+        supplier_status,
+      </if>
+      <if test="inspectStatus != null" >
+        inspect_status,
+      </if>
+      <if test="riskState != null" >
+        risk_state,
+      </if>
+      <if test="collectType != null" >
+        collect_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffnumrange != null" >
+        #{staffnumrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fromtime != null" >
+        #{fromtime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="ismicroent != null" >
+        #{ismicroent,jdbcType=VARCHAR},
+      </if>
+      <if test="regnumber != null" >
+        #{regnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="percentilescore != null" >
+        #{percentilescore,jdbcType=VARCHAR},
+      </if>
+      <if test="regcapital != null" >
+        #{regcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="reginstitute != null" >
+        #{reginstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="reglocation != null" >
+        #{reglocation,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedtime != null" >
+        #{approvedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="socialstaffnum != null" >
+        #{socialstaffnum,jdbcType=VARCHAR},
+      </if>
+      <if test="taxnumber != null" >
+        #{taxnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgnumber != null" >
+        #{orgnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regstatus != null" >
+        #{regstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="estiblishtime != null" >
+        #{estiblishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="legalpersonname != null" >
+        #{legalpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="totime != null" >
+        #{totime,jdbcType=VARCHAR},
+      </if>
+      <if test="actualcapital != null" >
+        #{actualcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="companyorgtype != null" >
+        #{companyorgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="creditcode != null" >
+        #{creditcode,jdbcType=VARCHAR},
+      </if>
+      <if test="actualcapitalcurrency != null" >
+        #{actualcapitalcurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="orgapprovedinstitute != null" >
+        #{orgapprovedinstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="websitelist != null" >
+        #{websitelist,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null" >
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="territory != null" >
+        #{territory,jdbcType=VARCHAR},
+      </if>
+      <if test="internalRating != null" >
+        #{internalRating,jdbcType=VARCHAR},
+      </if>
+      <if test="forTime != null" >
+        #{forTime,jdbcType=VARCHAR},
+      </if>
+      <if test="failureTime != null" >
+        #{failureTime,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStatus != null" >
+        #{supplierStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectStatus != null" >
+        #{inspectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="riskState != null" >
+        #{riskState,jdbcType=VARCHAR},
+      </if>
+      <if test="collectType != null" >
+        #{collectType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierInfo" >
+    update supplier_info
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffnumrange != null" >
+        staffNumRange = #{staffnumrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fromtime != null" >
+        fromTime = #{fromtime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="ismicroent != null" >
+        isMicroEnt = #{ismicroent,jdbcType=VARCHAR},
+      </if>
+      <if test="regnumber != null" >
+        regNumber = #{regnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="percentilescore != null" >
+        percentileScore = #{percentilescore,jdbcType=VARCHAR},
+      </if>
+      <if test="regcapital != null" >
+        regCapital = #{regcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="reginstitute != null" >
+        regInstitute = #{reginstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="reglocation != null" >
+        regLocation = #{reglocation,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedtime != null" >
+        approvedTime = #{approvedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="socialstaffnum != null" >
+        socialStaffNum = #{socialstaffnum,jdbcType=VARCHAR},
+      </if>
+      <if test="taxnumber != null" >
+        taxNumber = #{taxnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgnumber != null" >
+        orgNumber = #{orgnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regstatus != null" >
+        regStatus = #{regstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="estiblishtime != null" >
+        estiblishTime = #{estiblishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="legalpersonname != null" >
+        legalPersonName = #{legalpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="totime != null" >
+        toTime = #{totime,jdbcType=VARCHAR},
+      </if>
+      <if test="actualcapital != null" >
+        actualCapital = #{actualcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="companyorgtype != null" >
+        companyOrgType = #{companyorgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="creditcode != null" >
+        creditCode = #{creditcode,jdbcType=VARCHAR},
+      </if>
+      <if test="actualcapitalcurrency != null" >
+        actualCapitalCurrency = #{actualcapitalcurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="orgapprovedinstitute != null" >
+        orgApprovedInstitute = #{orgapprovedinstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="websitelist != null" >
+        websiteList = #{websitelist,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="territory != null" >
+        territory = #{territory,jdbcType=VARCHAR},
+      </if>
+      <if test="internalRating != null" >
+        internal_rating = #{internalRating,jdbcType=VARCHAR},
+      </if>
+      <if test="forTime != null" >
+        for_time = #{forTime,jdbcType=VARCHAR},
+      </if>
+      <if test="failureTime != null" >
+        failure_time = #{failureTime,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStatus != null" >
+        supplier_status = #{supplierStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectStatus != null" >
+        inspect_status = #{inspectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="riskState != null" >
+        risk_state = #{riskState,jdbcType=VARCHAR},
+      </if>
+      <if test="collectType != null" >
+        collect_type = #{collectType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierInfo" >
+    update supplier_info
+    set supplier_id = #{supplierId,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      staffNumRange = #{staffnumrange,jdbcType=VARCHAR},
+      fromTime = #{fromtime,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      isMicroEnt = #{ismicroent,jdbcType=VARCHAR},
+      regNumber = #{regnumber,jdbcType=VARCHAR},
+      percentileScore = #{percentilescore,jdbcType=VARCHAR},
+      regCapital = #{regcapital,jdbcType=VARCHAR},
+      regInstitute = #{reginstitute,jdbcType=VARCHAR},
+      regLocation = #{reglocation,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      approvedTime = #{approvedtime,jdbcType=VARCHAR},
+      socialStaffNum = #{socialstaffnum,jdbcType=VARCHAR},
+      taxNumber = #{taxnumber,jdbcType=VARCHAR},
+      orgNumber = #{orgnumber,jdbcType=VARCHAR},
+      regStatus = #{regstatus,jdbcType=VARCHAR},
+      estiblishTime = #{estiblishtime,jdbcType=VARCHAR},
+      legalPersonName = #{legalpersonname,jdbcType=VARCHAR},
+      toTime = #{totime,jdbcType=VARCHAR},
+      actualCapital = #{actualcapital,jdbcType=VARCHAR},
+      companyOrgType = #{companyorgtype,jdbcType=VARCHAR},
+      creditCode = #{creditcode,jdbcType=VARCHAR},
+      actualCapitalCurrency = #{actualcapitalcurrency,jdbcType=VARCHAR},
+      orgApprovedInstitute = #{orgapprovedinstitute,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      websiteList = #{websitelist,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      territory = #{territory,jdbcType=VARCHAR},
+      internal_rating = #{internalRating,jdbcType=VARCHAR},
+      for_time = #{forTime,jdbcType=VARCHAR},
+      failure_time = #{failureTime,jdbcType=VARCHAR},
+      supplier_status = #{supplierStatus,jdbcType=VARCHAR},
+      inspect_status = #{inspectStatus,jdbcType=VARCHAR},
+      risk_state = #{riskState,jdbcType=VARCHAR},
+      collect_type = #{collectType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

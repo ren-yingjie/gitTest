@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierRishMonitorInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.vo.SupplierRishMonitorVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="monitoring_type" property="monitoringType" jdbcType="VARCHAR" />
+    <result column="monitoring_source" property="monitoringSource" jdbcType="VARCHAR" />
+    <result column="monitoring_time" property="monitoringTime" jdbcType="VARCHAR" />
+    <result column="before_change" property="beforeChange" jdbcType="VARCHAR" />
+    <result column="after_change" property="afterChange" jdbcType="VARCHAR" />
+    <result column="supplierCount" property="supplierCount" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, supplier_id, company_id,supplier_name, add_time, monitoring_type, monitoring_source, monitoring_time,
+    before_change, after_change
+  </sql>
+  <select id="selectRishMonitorCount" resultType="int" parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+     select count(1) from  (select count(1) from  supplier_rish_monitor_info where company_id =#{companyId}
+      <if test="monitorTime !=null  and monitorTime !=''">
+        and   monitoring_time =#{monitorTime}
+      </if>
+      group  by  supplier_id) a
+  </select>
+  <select id="selectRishMonitorCountBG" resultType="int" parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+    select count(1) from (select count(1) from  supplier_rish_monitor_info where company_id =#{companyId} and status='1'
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+    group  by  supplier_id) a
+
+  </select>
+
+  <select id="selectRishMonitorCountBGEvent" resultType="int" parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+    select count(1) from  supplier_rish_monitor_info where company_id =#{companyId} and status='1'
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+  </select>
+
+
+  <select id="selectRishMonitorTop10" resultMap="BaseResultMap" >
+    select a.supplier_name  , a.monitoring_grade , a.supplierCount from  (select *,count(supplier_name) as  supplierCount from  supplier_rish_monitor_info where company_id =#{companyId} and status='1'
+     <if test="monitorTime !=null  and monitorTime !=''">
+        and  monitoring_time =#{monitorTime}
+     </if>
+    group  by  supplier_id) a
+    ORDER BY a.supplierCount desc limit 0,10
+</select>
+
+  <select id="selectRishMonitorList" resultMap="BaseResultMap" >
+       select * from  supplier_rish_monitor_info where company_id =#{companyId}
+      <if test="supplierName !=null  and supplierName !=''">
+        and  supplier_name  like #{supplierName}
+      </if>
+    <if test="monitoringType !=null  and monitoringType !=''">
+      and  monitoring_type = #{monitoringType}
+    </if>
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+    order by  add_time desc
+    LIMIT #{currentPage}, #{currentCount}
+  </select>
+  <select id="selectRishMonitorListCount" resultType="int" parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+    select count(1) from  supplier_rish_monitor_info where company_id =#{companyId}
+    <if test="supplierName !=null  and supplierName !=''">
+      and  supplier_name  like #{supplierName}
+    </if>
+    <if test="monitoringType !=null  and monitoringType !=''">
+      and  monitoring_type = #{monitoringType}
+    </if>
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+    order by  add_time desc
+  </select>
+  <select id="selectRishMonitorGroupByType" resultType="java.util.HashMap"  parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+    select a.monitoring_type as   monitoringType , a.supplierCount from  (select *,count(supplier_name) as  supplierCount from  supplier_rish_monitor_info where company_id =#{companyId}
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+    group  by  monitoring_type) a
+  </select>
+
+
+  <select id="selectSupplierMonitorChaneVo"  resultType="com.zhongwang.data.vo.SupplierMonitorChaneVo" parameterType="com.zhongwang.data.request.RiskMonitoringRequest">
+    select monitor_type as monitorType, monitor_number as monitorNumber from supplier_monitor_change_number where
+      company_id =#{companyId} and supplier_name  like #{supplierName}
+    <if test="monitorTime !=null  and monitorTime !=''">
+      and  monitoring_time =#{monitorTime}
+    </if>
+
+  </select>
+
+
+</mapper>

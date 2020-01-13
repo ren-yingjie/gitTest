@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierHighRiskDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierHighRiskDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="risk_warning_type" property="riskWarningType" jdbcType="VARCHAR" />
+    <result column="risk_warning_detail" property="riskWarningDetail" jdbcType="VARCHAR" />
+  </resultMap>
+
+</mapper>

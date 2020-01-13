@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierRiskSentimentInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierRiskSentimentInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="publish_date" property="publishDate" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="details" property="details" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <select id="selectsupplierRiskSentimentInfo" resultMap="BaseResultMap">
+      select *  from  supplier_risk_sentiment_info where  company_id =#{companyId}
+      <if test="supplierName !=null  and  supplierName !=''">
+        and  supplier_name like #{supplierName}
+      </if>
+
+  </select>
+</mapper>

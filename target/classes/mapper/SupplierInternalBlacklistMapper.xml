@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierInternalBlacklistMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierInternalBlacklist" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="add_name" property="addName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierInternalBlacklist" >
+    insert into supplier_internal_blacklist (id, company_id, uuid,
+      supplier_id, supplier_name, add_time,
+      reason, add_name)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR},
+      #{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
+      #{reason,jdbcType=VARCHAR}, #{addName,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectByExtCont" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.Risk.PageBean">
+    SELECT COUNT(1) FROM supplier_internal_blacklist
+    <where>
+      <if test="supplierName != null and supplierName != ''">
+        AND supplier_name like concat('%',#{supplierName},'%')
+      </if>
+      and company_id=#{companyId}
+    </where>
+  </select>
+  <!--查询内部黑名单-->
+  <select id="selectBySupplierName" resultType="com.zhongwang.data.entity.SupplierInternalBlacklist" parameterType="com.zhongwang.data.entity.Risk.PageBean">
+    select uuid as uuid,supplier_name as supplierName,add_time as addTime,reason as reason,add_name as addName
+    from supplier_internal_blacklist
+    <where>
+    <if test="supplierName != null and supplierName != ''">
+      AND supplier_name like concat('%',#{supplierName},'%')
+    </if>
+      and company_id=#{companyId}
+  </where>
+  limit #{index},#{currentCount}
+  </select>
+  <!--移除黑名单-->
+  <delete id="deleteExternal" parameterType="java.lang.String">
+    DELETE FROM supplier_internal_blacklist WHERE uuid = #{uuid}
+  </delete>
+</mapper>

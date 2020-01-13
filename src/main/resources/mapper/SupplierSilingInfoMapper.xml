@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierSilingInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierSilingInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="siling_year5_up" property="silingYear5Up" jdbcType="VARCHAR" />
+    <result column="siling_year5" property="silingYear5" jdbcType="VARCHAR" />
+    <result column="siling_year4" property="silingYear4" jdbcType="VARCHAR" />
+    <result column="siling_year3" property="silingYear3" jdbcType="VARCHAR" />
+    <result column="siling_year2" property="silingYear2" jdbcType="VARCHAR" />
+    <result column="siling_year1" property="silingYear1" jdbcType="VARCHAR" />
+    <result column="year_time" property="yearTime" jdbcType="VARCHAR" />
+    <result column="siling_year1_down" property="silingYear1Down" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="siling_type" property="silingType" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    id, supplier_id,company_id, supplier_name, siling_year5_up, siling_year5, siling_year4, siling_year3,
+    siling_year2, siling_year1, siling_year1_down, add_time, siling_type
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zhongwang.data.entity.SupplierSilingInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_siling_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--供应商司龄统计-->
+  <select id="selectBySiLing" resultMap="BaseResultMap" parameterType="com.zhongwang.data.entity.SupplierSilingInfo">
+      select siling_year5_up,siling_year5,siling_year4,siling_year3,siling_year2,siling_year1,siling_year1_down
+      from supplier_siling_info where siling_type='1' and company_id=#{companyId} and year_time=#{yearTime}
+  </select>
+  <!--供应商合作时长统计-->
+  <select id="selectByCooperation" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select siling_year5_up,siling_year5,siling_year4,siling_year3,siling_year2,siling_year1,siling_year1_down
+      from supplier_siling_info where siling_type='2' and company_id= #{companyId} and year_time=#{yearTime}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_siling_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierSilingInfo" >
+    insert into supplier_siling_info (id, supplier_id,company_id, supplier_name,
+      siling_year5_up, siling_year5, siling_year4, 
+      siling_year3, siling_year2, siling_year1, 
+      siling_year1_down, add_time, siling_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{companyId},#{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR},
+      #{silingYear5Up,jdbcType=VARCHAR}, #{silingYear5,jdbcType=VARCHAR}, #{silingYear4,jdbcType=VARCHAR}, 
+      #{silingYear3,jdbcType=VARCHAR}, #{silingYear2,jdbcType=VARCHAR}, #{silingYear1,jdbcType=VARCHAR}, 
+      #{silingYear1Down,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{silingType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierSilingInfo" >
+    insert into supplier_siling_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="silingYear5Up != null" >
+        siling_year5_up,
+      </if>
+      <if test="silingYear5 != null" >
+        siling_year5,
+      </if>
+      <if test="silingYear4 != null" >
+        siling_year4,
+      </if>
+      <if test="silingYear3 != null" >
+        siling_year3,
+      </if>
+      <if test="silingYear2 != null" >
+        siling_year2,
+      </if>
+      <if test="silingYear1 != null" >
+        siling_year1,
+      </if>
+      <if test="silingYear1Down != null" >
+        siling_year1_down,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="silingType != null" >
+        siling_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear5Up != null" >
+        #{silingYear5Up,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear5 != null" >
+        #{silingYear5,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear4 != null" >
+        #{silingYear4,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear3 != null" >
+        #{silingYear3,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear2 != null" >
+        #{silingYear2,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear1 != null" >
+        #{silingYear1,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear1Down != null" >
+        #{silingYear1Down,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="silingType != null" >
+        #{silingType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierSilingInfo" >
+    update supplier_siling_info
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear5Up != null" >
+        siling_year5_up = #{silingYear5Up,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear5 != null" >
+        siling_year5 = #{silingYear5,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear4 != null" >
+        siling_year4 = #{silingYear4,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear3 != null" >
+        siling_year3 = #{silingYear3,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear2 != null" >
+        siling_year2 = #{silingYear2,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear1 != null" >
+        siling_year1 = #{silingYear1,jdbcType=VARCHAR},
+      </if>
+      <if test="silingYear1Down != null" >
+        siling_year1_down = #{silingYear1Down,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="silingType != null" >
+        siling_type = #{silingType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierSilingInfo" >
+    update supplier_siling_info
+    set supplier_id = #{supplierId,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      siling_year5_up = #{silingYear5Up,jdbcType=VARCHAR},
+      siling_year5 = #{silingYear5,jdbcType=VARCHAR},
+      siling_year4 = #{silingYear4,jdbcType=VARCHAR},
+      siling_year3 = #{silingYear3,jdbcType=VARCHAR},
+      siling_year2 = #{silingYear2,jdbcType=VARCHAR},
+      siling_year1 = #{silingYear1,jdbcType=VARCHAR},
+      siling_year1_down = #{silingYear1Down,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      siling_type = #{silingType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

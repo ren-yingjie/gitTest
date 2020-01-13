@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierJointPunishInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierJointPunishInfo" >
+    <id column="id" property="BaseResultMap" jdbcType="INTEGER" />
+    <result column="joint_punish_uuid" property="jointPunishUuid" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="subject_type" property="subjectType" jdbcType="VARCHAR" />
+    <result column="risk_grade" property="riskGrade" jdbcType="VARCHAR" />
+    <result column="risk_event" property="riskEvent" jdbcType="VARCHAR" />
+    <result column="risk_score" property="riskScore" jdbcType="VARCHAR" />
+    <result column="assess_date" property="assessDate" jdbcType="VARCHAR" />
+    <result column="assess_section" property="assessSection" jdbcType="VARCHAR" />
+    <result column="case_no" property="caseNo" jdbcType="VARCHAR" />
+    <result column="shortlisted_type" property="shortlistedType" jdbcType="VARCHAR" />
+    <result column="case_brief" property="caseBrief" jdbcType="VARCHAR" />
+    <result column="subject_status" property="subjectStatus" jdbcType="VARCHAR" />
+    <result column="internal_blacklist" property="internalBlacklist" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseIsert" type="com.zhongwang.data.entity.SupplierInternalBlacklist" >
+    <id column="id" property="BaseIsert" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="add_name" property="addName" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--查询总数-->
+  <select id="selectByExtCont" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.SupplierJointPunishInfo">
+    SELECT COUNT(1) FROM supplier_joint_punish_info
+    <where>
+      <if test="internalBlacklist != null and internalBlacklist != ''">
+        AND internal_blacklist=#{internalBlacklist}
+      </if>
+      <if test="subjectStatus != null and subjectStatus != ''">
+        AND subject_status=#{subjectStatus} shortlisted_type='1'
+      </if>
+      <if test="shortlistedType != null and shortlistedType != ''">
+        AND shortlisted_type=#{shortlistedType}
+      </if>
+      AND company_id=#{companyId}
+    </where>
+  </select>
+  <!--外部黑名单查询-->
+  <select id="selectByExternal" resultType="com.zhongwang.data.entity.SupplierJointPunishInfo" parameterType="com.zhongwang.data.entity.SupplierInfo">
+    select joint_punish_uuid as jointPunishUuid,subject_name as subjectName,id_number as idNumber,assess_section as assessSection,
+    case_brief as caseBrief,assess_date as assessDate,subject_status as subjectStatus
+    ,shortlisted_type as shortlistedType,internal_blacklist as internalBlacklist from supplier_joint_punish_info
+    where shortlisted_type='1' and company_id=#{companyId}
+    <if test="internalBlacklist != null and internalBlacklist != ''" >
+      and internal_blacklist = #{internalBlacklist}
+    </if>
+    <if test="subjectStatus != null and subjectStatus != ''" >
+     and subject_status = #{subjectStatus}
+    </if>
+    limit #{index},#{currentCount}
+  </select>
+  <!--查询未入围供应商-->
+  <select id="selectByNotList" resultType="com.zhongwang.data.entity.SupplierJointPunishInfo" parameterType="java.lang.String">
+    select subject_name as subjectName ,id_number as idNumber,assess_section as assessSection,case_brief as caseBrief,
+    assess_date as assessDate,subject_status as subjectStatus
+    from supplier_joint_punish_info where shortlisted_type='0' and subject_name like concat('%', #{subjectName,jdbcType=VARCHAR},'%')
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierJointPunishInfo" >
+    update supplier_joint_punish_info
+    <set >
+      <if test="subjectType != null " >
+        subject_type = #{subjectType,jdbcType=VARCHAR},
+      </if>
+      <if test="riskGrade != null" >
+        risk_grade = #{riskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="riskEvent != null" >
+        risk_event = #{riskEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="riskScore != null" >
+        risk_score = #{riskScore,jdbcType=VARCHAR},
+      </if>
+      <if test="assessDate != null" >
+        assess_date = #{assessDate,jdbcType=VARCHAR},
+      </if>
+      <if test="assessSection != null" >
+        assess_section = #{assessSection,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null" >
+        case_no = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shortlistedType != null" >
+        shortlisted_type = #{shortlistedType,jdbcType=VARCHAR},
+      </if>
+      <if test="caseBrief != null" >
+        case_brief = #{caseBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectStatus != null" >
+        subject_status = #{subjectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="internalBlacklist != null" >
+        internal_blacklist = #{internalBlacklist,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  joint_punish_uuid = #{jointPunishUuid}
+  </update>
+  <select id="selectByPunishInfo" resultType="com.zhongwang.data.entity.SupplierJointPunishInfo" parameterType="java.lang.String">
+    select company_id,joint_punish_uuid,supplier_id,subject_name
+    from supplier_joint_punish_info where internal_blacklist='1' and joint_punish_uuid=#{jointPunishUuid}
+  </select>
+  <insert id="insertExternal" parameterType="com.zhongwang.data.entity.SupplierJointPunishInfo" >
+    INSERT INTO supplier_internal_blacklist(company_id, uuid, supplier_id,supplier_name, reason, add_name)
+    VALUES(#{companyId},#{uuid},#{supplierId},#{supplierName},#{reason},#{addName})
+  </insert>
+
+
+</mapper>

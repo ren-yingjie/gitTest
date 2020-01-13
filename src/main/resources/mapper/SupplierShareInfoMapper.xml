@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierShareInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierShareInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="shareholder" property="shareholder" jdbcType="VARCHAR" />
+    <result column="monitor_date" property="monitorDate" jdbcType="VARCHAR" />
+    <result column="equity_chain" property="equityChain" jdbcType="LONGVARCHAR" />
+      <result column="change_situation" property="changeSituation" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectSupplierShareInfo"  resultMap="BaseResultMap">
+      select *  from  supplier_share_info where  company_id=#{companyId}
+      <if test="supplierName !=null and supplierName !=''">
+        and supplier_name like #{supplierName}
+      </if>
+
+  </select>
+
+</mapper>

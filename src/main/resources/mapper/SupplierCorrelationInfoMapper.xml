@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierCorrelationInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierCorrelationInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="comprehensive_correlation" property="comprehensiveCorrelation" jdbcType="VARCHAR" />
+    <result column="based_correlation" property="basedCorrelation" jdbcType="VARCHAR" />
+    <result column="regional_correlation" property="regionalCorrelation" jdbcType="VARCHAR" />
+    <result column="products_association" property="productsAssociation" jdbcType="VARCHAR" />
+    <result column="other_association" property="otherAssociation" jdbcType="VARCHAR" />
+    <result column="correlation_supplier" property="correlationSupplier" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, supplier_id, company_id,supplier_name, add_time, comprehensive_correlation, based_correlation,
+    regional_correlation, products_association, other_association, correlation_supplier
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_correlation_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_correlation_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierCorrelationInfo" >
+    insert into supplier_correlation_info (id, supplier_id, supplier_name, 
+      add_time, comprehensive_correlation, based_correlation, 
+      regional_correlation, products_association, 
+      other_association, correlation_supplier)
+    values (#{id,jdbcType=INTEGER}, #{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{comprehensiveCorrelation,jdbcType=VARCHAR}, #{basedCorrelation,jdbcType=VARCHAR}, 
+      #{regionalCorrelation,jdbcType=VARCHAR}, #{productsAssociation,jdbcType=VARCHAR}, 
+      #{otherAssociation,jdbcType=VARCHAR}, #{correlationSupplier,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierCorrelationInfo" >
+    insert into supplier_correlation_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="comprehensiveCorrelation != null" >
+        comprehensive_correlation,
+      </if>
+      <if test="basedCorrelation != null" >
+        based_correlation,
+      </if>
+      <if test="regionalCorrelation != null" >
+        regional_correlation,
+      </if>
+      <if test="productsAssociation != null" >
+        products_association,
+      </if>
+      <if test="otherAssociation != null" >
+        other_association,
+      </if>
+      <if test="correlationSupplier != null" >
+        correlation_supplier,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comprehensiveCorrelation != null" >
+        #{comprehensiveCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="basedCorrelation != null" >
+        #{basedCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="regionalCorrelation != null" >
+        #{regionalCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="productsAssociation != null" >
+        #{productsAssociation,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAssociation != null" >
+        #{otherAssociation,jdbcType=VARCHAR},
+      </if>
+      <if test="correlationSupplier != null" >
+        #{correlationSupplier,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierCorrelationInfo" >
+    update supplier_correlation_info
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comprehensiveCorrelation != null" >
+        comprehensive_correlation = #{comprehensiveCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="basedCorrelation != null" >
+        based_correlation = #{basedCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="regionalCorrelation != null" >
+        regional_correlation = #{regionalCorrelation,jdbcType=VARCHAR},
+      </if>
+      <if test="productsAssociation != null" >
+        products_association = #{productsAssociation,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAssociation != null" >
+        other_association = #{otherAssociation,jdbcType=VARCHAR},
+      </if>
+      <if test="correlationSupplier != null" >
+        correlation_supplier = #{correlationSupplier,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierCorrelationInfo" >
+    update supplier_correlation_info
+    set supplier_id = #{supplierId,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      comprehensive_correlation = #{comprehensiveCorrelation,jdbcType=VARCHAR},
+      based_correlation = #{basedCorrelation,jdbcType=VARCHAR},
+      regional_correlation = #{regionalCorrelation,jdbcType=VARCHAR},
+      products_association = #{productsAssociation,jdbcType=VARCHAR},
+      other_association = #{otherAssociation,jdbcType=VARCHAR},
+      correlation_supplier = #{correlationSupplier,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.zhongwang.api</groupId>
+  <artifactId>zhongwang</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <name>data-invoice-service</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <start-class>com.zhongwang.data.SupplierServiceApplication</start-class>
+  </properties>
+	  
+    <parent>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-parent</artifactId>
+	    <version>2.1.4.RELEASE</version>
+	  </parent>
+	  
+  <dependencies>
+	  <dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+	  </dependency>
+
+	 <!-- <dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-starter-openfeign</artifactId>
+	  </dependency>
+
+
+	  <dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+		  <version>0.2.2.RELEASE</version>
+	  </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.31</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		</dependency>
+		
+		<dependency>
+	        <groupId>org.apache.httpcomponents</groupId>
+	        <artifactId>httpclient</artifactId>
+	    </dependency>
+	    
+	    <!-- jdbc -->
+  		<dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-jdbc</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>mysql</groupId>
+	      <artifactId>mysql-connector-java</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>com.alibaba</groupId>
+	      <artifactId>druid</artifactId>
+	      <version>1.0.20</version>
+	    </dependency>
+	    <dependency>
+           <groupId>org.mybatis.spring.boot</groupId>
+           <artifactId>mybatis-spring-boot-starter</artifactId>
+           <version>1.3.2</version>
+        </dependency>
+  		<!-- jdbc -->
+  		<dependency>
+		    <groupId>net.sf.json-lib</groupId>
+		    <artifactId>json-lib</artifactId>
+		    <version>2.4</version>
+		    <classifier>jdk13</classifier>
+		</dependency>
+
+	  <!--<dependency>
+		  <groupId>com.zhongwang.api</groupId>
+		  <artifactId>common</artifactId>
+		  <version>1.0.0</version>
+	  </dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		</dependency>
+		<dependency>
+		   <groupId>cn.afterturn</groupId>
+		   <artifactId>easypoi-base</artifactId>
+		   <version>4.1.0</version>
+		  </dependency>
+
+	 <dependency>
+
+       <groupId>org.jfree</groupId>
+
+       <artifactId>jcommon</artifactId>
+
+       <version>1.0.24</version>
+
+      </dependency>
+
+     <!-- <dependency>
+
+       <groupId>org.jfree</groupId>
+
+       <artifactId>jfreechart</artifactId>
+
+       <version>1.5.0</version>
+
+      </dependency>
+			
+		  <dependency>
+		      <groupId>org.apache.poi</groupId>
+		      <artifactId>poi-ooxml</artifactId>
+		      <version>4.1.0</version>
+		  </dependency>
+	  <dependency>
+		  <groupId>org.apache.poi</groupId>
+		  <artifactId>poi-ooxml</artifactId>
+		  <version>4.1.0</version>
+	  </dependency>-->
+  </dependencies>
+  <build>
+    <finalName>data-invoice-service</finalName>
+	  <plugins>
+
+		  <plugin>
+			  <artifactId>maven-resources-plugin</artifactId>
+			  <executions>
+				  <execution>
+					  <id>copy-resources</id>
+					  <phase>validate</phase>
+					  <goals>
+						  <goal>copy-resources</goal>
+					  </goals>
+					  <configuration>
+						  <outputDirectory>${project.build.directory}/conf</outputDirectory>
+						  <resources>
+							  <resource>
+								  <directory>src/main/resources</directory>
+								  <includes>
+									  <exclude>/*.yml</exclude>
+								  </includes>
+								  <filtering>true</filtering>
+							  </resource>
+						  </resources>
+					  </configuration>
+				  </execution>
+			  </executions>
+		  </plugin>
+
+		  <plugin>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-maven-plugin</artifactId>
+		  </plugin>
+	  </plugins>
+  </build>
+  
+  <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

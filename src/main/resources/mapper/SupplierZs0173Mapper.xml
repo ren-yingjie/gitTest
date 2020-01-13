@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierZs0173Mapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierZs0173" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="regType" property="regtype" jdbcType="VARCHAR" />
+    <result column="personIdNumber" property="personidnumber" jdbcType="VARCHAR" />
+    <result column="legalpersonName" property="legalpersonname" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="ownTaxAmount" property="owntaxamount" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="taxIdNumber" property="taxidnumber" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="taxCategory" property="taxcategory" jdbcType="VARCHAR" />
+    <result column="taxpayerType" property="taxpayertype" jdbcType="VARCHAR" />
+    <result column="newOwnTaxBalance" property="newowntaxbalance" jdbcType="VARCHAR" />
+    <result column="ownTaxBalance" property="owntaxbalance" jdbcType="VARCHAR" />
+    <result column="taxname" property="taxname" jdbcType="VARCHAR" />
+    <result column="personIdName" property="personidname" jdbcType="VARCHAR" />
+    <result column="publishDate" property="publishdate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, company_id, supplier_id, add_time, total, regType, personIdNumber, legalpersonName, 
+    location, ownTaxAmount, department, taxIdNumber, type, taxCategory, taxpayerType, 
+    newOwnTaxBalance, ownTaxBalance, taxname, personIdName, publishDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zhongwang.data.entity.SupplierZs0173Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier_zs0173
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_zs0173
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_zs0173
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhongwang.data.entity.SupplierZs0173Example" >
+    delete from supplier_zs0173
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierZs0173" >
+    insert into supplier_zs0173 (id, company_id, supplier_id, 
+      add_time, total, regType, 
+      personIdNumber, legalpersonName, location, 
+      ownTaxAmount, department, taxIdNumber, 
+      type, taxCategory, taxpayerType, 
+      newOwnTaxBalance, ownTaxBalance, taxname, 
+      personIdName, publishDate)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{total,jdbcType=INTEGER}, #{regtype,jdbcType=VARCHAR}, 
+      #{personidnumber,jdbcType=VARCHAR}, #{legalpersonname,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{owntaxamount,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{taxidnumber,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{taxcategory,jdbcType=VARCHAR}, #{taxpayertype,jdbcType=VARCHAR}, 
+      #{newowntaxbalance,jdbcType=VARCHAR}, #{owntaxbalance,jdbcType=VARCHAR}, #{taxname,jdbcType=VARCHAR}, 
+      #{personidname,jdbcType=VARCHAR}, #{publishdate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierZs0173" >
+    insert into supplier_zs0173
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="regtype != null" >
+        regType,
+      </if>
+      <if test="personidnumber != null" >
+        personIdNumber,
+      </if>
+      <if test="legalpersonname != null" >
+        legalpersonName,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="owntaxamount != null" >
+        ownTaxAmount,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="taxidnumber != null" >
+        taxIdNumber,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="taxcategory != null" >
+        taxCategory,
+      </if>
+      <if test="taxpayertype != null" >
+        taxpayerType,
+      </if>
+      <if test="newowntaxbalance != null" >
+        newOwnTaxBalance,
+      </if>
+      <if test="owntaxbalance != null" >
+        ownTaxBalance,
+      </if>
+      <if test="taxname != null" >
+        taxname,
+      </if>
+      <if test="personidname != null" >
+        personIdName,
+      </if>
+      <if test="publishdate != null" >
+        publishDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="regtype != null" >
+        #{regtype,jdbcType=VARCHAR},
+      </if>
+      <if test="personidnumber != null" >
+        #{personidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="legalpersonname != null" >
+        #{legalpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="owntaxamount != null" >
+        #{owntaxamount,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="taxidnumber != null" >
+        #{taxidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="taxcategory != null" >
+        #{taxcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayertype != null" >
+        #{taxpayertype,jdbcType=VARCHAR},
+      </if>
+      <if test="newowntaxbalance != null" >
+        #{newowntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="owntaxbalance != null" >
+        #{owntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="taxname != null" >
+        #{taxname,jdbcType=VARCHAR},
+      </if>
+      <if test="personidname != null" >
+        #{personidname,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null" >
+        #{publishdate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zhongwang.data.entity.SupplierZs0173Example" resultType="java.lang.Integer" >
+    select count(*) from supplier_zs0173
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier_zs0173
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null" >
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=INTEGER},
+      </if>
+      <if test="record.regtype != null" >
+        regType = #{record.regtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personidnumber != null" >
+        personIdNumber = #{record.personidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalpersonname != null" >
+        legalpersonName = #{record.legalpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null" >
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owntaxamount != null" >
+        ownTaxAmount = #{record.owntaxamount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxidnumber != null" >
+        taxIdNumber = #{record.taxidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxcategory != null" >
+        taxCategory = #{record.taxcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxpayertype != null" >
+        taxpayerType = #{record.taxpayertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newowntaxbalance != null" >
+        newOwnTaxBalance = #{record.newowntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owntaxbalance != null" >
+        ownTaxBalance = #{record.owntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxname != null" >
+        taxname = #{record.taxname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personidname != null" >
+        personIdName = #{record.personidname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishdate != null" >
+        publishDate = #{record.publishdate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier_zs0173
+    set id = #{record.id,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      total = #{record.total,jdbcType=INTEGER},
+      regType = #{record.regtype,jdbcType=VARCHAR},
+      personIdNumber = #{record.personidnumber,jdbcType=VARCHAR},
+      legalpersonName = #{record.legalpersonname,jdbcType=VARCHAR},
+      location = #{record.location,jdbcType=VARCHAR},
+      ownTaxAmount = #{record.owntaxamount,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      taxIdNumber = #{record.taxidnumber,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      taxCategory = #{record.taxcategory,jdbcType=VARCHAR},
+      taxpayerType = #{record.taxpayertype,jdbcType=VARCHAR},
+      newOwnTaxBalance = #{record.newowntaxbalance,jdbcType=VARCHAR},
+      ownTaxBalance = #{record.owntaxbalance,jdbcType=VARCHAR},
+      taxname = #{record.taxname,jdbcType=VARCHAR},
+      personIdName = #{record.personidname,jdbcType=VARCHAR},
+      publishDate = #{record.publishdate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierZs0173" >
+    update supplier_zs0173
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="regtype != null" >
+        regType = #{regtype,jdbcType=VARCHAR},
+      </if>
+      <if test="personidnumber != null" >
+        personIdNumber = #{personidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="legalpersonname != null" >
+        legalpersonName = #{legalpersonname,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="owntaxamount != null" >
+        ownTaxAmount = #{owntaxamount,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="taxidnumber != null" >
+        taxIdNumber = #{taxidnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="taxcategory != null" >
+        taxCategory = #{taxcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayertype != null" >
+        taxpayerType = #{taxpayertype,jdbcType=VARCHAR},
+      </if>
+      <if test="newowntaxbalance != null" >
+        newOwnTaxBalance = #{newowntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="owntaxbalance != null" >
+        ownTaxBalance = #{owntaxbalance,jdbcType=VARCHAR},
+      </if>
+      <if test="taxname != null" >
+        taxname = #{taxname,jdbcType=VARCHAR},
+      </if>
+      <if test="personidname != null" >
+        personIdName = #{personidname,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null" >
+        publishDate = #{publishdate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierZs0173" >
+    update supplier_zs0173
+    set company_id = #{companyId,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      total = #{total,jdbcType=INTEGER},
+      regType = #{regtype,jdbcType=VARCHAR},
+      personIdNumber = #{personidnumber,jdbcType=VARCHAR},
+      legalpersonName = #{legalpersonname,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      ownTaxAmount = #{owntaxamount,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      taxIdNumber = #{taxidnumber,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      taxCategory = #{taxcategory,jdbcType=VARCHAR},
+      taxpayerType = #{taxpayertype,jdbcType=VARCHAR},
+      newOwnTaxBalance = #{newowntaxbalance,jdbcType=VARCHAR},
+      ownTaxBalance = #{owntaxbalance,jdbcType=VARCHAR},
+      taxname = #{taxname,jdbcType=VARCHAR},
+      personIdName = #{personidname,jdbcType=VARCHAR},
+      publishDate = #{publishdate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

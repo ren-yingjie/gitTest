@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierSeniorInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierSeniorInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="senior_name" property="seniorName" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="change_situation" property="changeSituation" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectSupplierSeniorInfo" resultMap="BaseResultMap" >
+    select *  from  supplier_senior_info where company_id=#{companyId}
+    <if test="supplierName !=null  and supplierName !=''">
+      and    supplier_name like  #{supplierName}
+    </if>
+
+  </select>
+</mapper>

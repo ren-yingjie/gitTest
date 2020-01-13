@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.SupplierZs0241Mapper" >
+  <resultMap id="BaseResultMap" type="com.zhongwang.data.entity.SupplierZs0241" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="businessentity" property="businessentity" jdbcType="VARCHAR" />
+    <result column="gistid" property="gistid" jdbcType="VARCHAR" />
+    <result column="areaname" property="areaname" jdbcType="VARCHAR" />
+    <result column="cardnum" property="cardnum" jdbcType="VARCHAR" />
+    <result column="courtname" property="courtname" jdbcType="VARCHAR" />
+    <result column="publishdate" property="publishdate" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="gistunit" property="gistunit" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="VARCHAR" />
+    <result column="regdate" property="regdate" jdbcType="VARCHAR" />
+    <result column="casecode" property="casecode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhongwang.data.entity.SupplierZs0241" extends="BaseResultMap" >
+    <result column="disrupttypename" property="disrupttypename" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, company_id, supplier_id, add_time, businessentity, gistid, areaname, cardnum, 
+    courtname, publishdate, type, gistunit, duty, performance, regdate, casecode
+  </sql>
+  <sql id="Blob_Column_List" >
+    disrupttypename
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.zhongwang.data.entity.SupplierZs0241Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier_zs0241
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zhongwang.data.entity.SupplierZs0241Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier_zs0241
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier_zs0241
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier_zs0241
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhongwang.data.entity.SupplierZs0241Example" >
+    delete from supplier_zs0241
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhongwang.data.entity.SupplierZs0241" >
+    insert into supplier_zs0241 (id, company_id, supplier_id, 
+      add_time, businessentity, gistid, 
+      areaname, cardnum, courtname, 
+      publishdate, type, gistunit, 
+      duty, performance, regdate, 
+      casecode, disrupttypename)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{businessentity,jdbcType=VARCHAR}, #{gistid,jdbcType=VARCHAR}, 
+      #{areaname,jdbcType=VARCHAR}, #{cardnum,jdbcType=VARCHAR}, #{courtname,jdbcType=VARCHAR}, 
+      #{publishdate,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{gistunit,jdbcType=VARCHAR}, 
+      #{duty,jdbcType=VARCHAR}, #{performance,jdbcType=VARCHAR}, #{regdate,jdbcType=VARCHAR}, 
+      #{casecode,jdbcType=VARCHAR}, #{disrupttypename,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongwang.data.entity.SupplierZs0241" >
+    insert into supplier_zs0241
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="businessentity != null" >
+        businessentity,
+      </if>
+      <if test="gistid != null" >
+        gistid,
+      </if>
+      <if test="areaname != null" >
+        areaname,
+      </if>
+      <if test="cardnum != null" >
+        cardnum,
+      </if>
+      <if test="courtname != null" >
+        courtname,
+      </if>
+      <if test="publishdate != null" >
+        publishdate,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="gistunit != null" >
+        gistunit,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="performance != null" >
+        performance,
+      </if>
+      <if test="regdate != null" >
+        regdate,
+      </if>
+      <if test="casecode != null" >
+        casecode,
+      </if>
+      <if test="disrupttypename != null" >
+        disrupttypename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessentity != null" >
+        #{businessentity,jdbcType=VARCHAR},
+      </if>
+      <if test="gistid != null" >
+        #{gistid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        #{cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="courtname != null" >
+        #{courtname,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null" >
+        #{publishdate,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="gistunit != null" >
+        #{gistunit,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="performance != null" >
+        #{performance,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null" >
+        #{regdate,jdbcType=VARCHAR},
+      </if>
+      <if test="casecode != null" >
+        #{casecode,jdbcType=VARCHAR},
+      </if>
+      <if test="disrupttypename != null" >
+        #{disrupttypename,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zhongwang.data.entity.SupplierZs0241Example" resultType="java.lang.Integer" >
+    select count(*) from supplier_zs0241
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier_zs0241
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null" >
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.businessentity != null" >
+        businessentity = #{record.businessentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gistid != null" >
+        gistid = #{record.gistid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaname != null" >
+        areaname = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardnum != null" >
+        cardnum = #{record.cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courtname != null" >
+        courtname = #{record.courtname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishdate != null" >
+        publishdate = #{record.publishdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gistunit != null" >
+        gistunit = #{record.gistunit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duty != null" >
+        duty = #{record.duty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.performance != null" >
+        performance = #{record.performance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regdate != null" >
+        regdate = #{record.regdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.casecode != null" >
+        casecode = #{record.casecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disrupttypename != null" >
+        disrupttypename = #{record.disrupttypename,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update supplier_zs0241
+    set id = #{record.id,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      businessentity = #{record.businessentity,jdbcType=VARCHAR},
+      gistid = #{record.gistid,jdbcType=VARCHAR},
+      areaname = #{record.areaname,jdbcType=VARCHAR},
+      cardnum = #{record.cardnum,jdbcType=VARCHAR},
+      courtname = #{record.courtname,jdbcType=VARCHAR},
+      publishdate = #{record.publishdate,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      gistunit = #{record.gistunit,jdbcType=VARCHAR},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      performance = #{record.performance,jdbcType=VARCHAR},
+      regdate = #{record.regdate,jdbcType=VARCHAR},
+      casecode = #{record.casecode,jdbcType=VARCHAR},
+      disrupttypename = #{record.disrupttypename,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier_zs0241
+    set id = #{record.id,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      businessentity = #{record.businessentity,jdbcType=VARCHAR},
+      gistid = #{record.gistid,jdbcType=VARCHAR},
+      areaname = #{record.areaname,jdbcType=VARCHAR},
+      cardnum = #{record.cardnum,jdbcType=VARCHAR},
+      courtname = #{record.courtname,jdbcType=VARCHAR},
+      publishdate = #{record.publishdate,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      gistunit = #{record.gistunit,jdbcType=VARCHAR},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      performance = #{record.performance,jdbcType=VARCHAR},
+      regdate = #{record.regdate,jdbcType=VARCHAR},
+      casecode = #{record.casecode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongwang.data.entity.SupplierZs0241" >
+    update supplier_zs0241
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessentity != null" >
+        businessentity = #{businessentity,jdbcType=VARCHAR},
+      </if>
+      <if test="gistid != null" >
+        gistid = #{gistid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        areaname = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        cardnum = #{cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="courtname != null" >
+        courtname = #{courtname,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null" >
+        publishdate = #{publishdate,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="gistunit != null" >
+        gistunit = #{gistunit,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="performance != null" >
+        performance = #{performance,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null" >
+        regdate = #{regdate,jdbcType=VARCHAR},
+      </if>
+      <if test="casecode != null" >
+        casecode = #{casecode,jdbcType=VARCHAR},
+      </if>
+      <if test="disrupttypename != null" >
+        disrupttypename = #{disrupttypename,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhongwang.data.entity.SupplierZs0241" >
+    update supplier_zs0241
+    set company_id = #{companyId,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      businessentity = #{businessentity,jdbcType=VARCHAR},
+      gistid = #{gistid,jdbcType=VARCHAR},
+      areaname = #{areaname,jdbcType=VARCHAR},
+      cardnum = #{cardnum,jdbcType=VARCHAR},
+      courtname = #{courtname,jdbcType=VARCHAR},
+      publishdate = #{publishdate,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      gistunit = #{gistunit,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      performance = #{performance,jdbcType=VARCHAR},
+      regdate = #{regdate,jdbcType=VARCHAR},
+      casecode = #{casecode,jdbcType=VARCHAR},
+      disrupttypename = #{disrupttypename,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongwang.data.entity.SupplierZs0241" >
+    update supplier_zs0241
+    set company_id = #{companyId,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      businessentity = #{businessentity,jdbcType=VARCHAR},
+      gistid = #{gistid,jdbcType=VARCHAR},
+      areaname = #{areaname,jdbcType=VARCHAR},
+      cardnum = #{cardnum,jdbcType=VARCHAR},
+      courtname = #{courtname,jdbcType=VARCHAR},
+      publishdate = #{publishdate,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      gistunit = #{gistunit,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      performance = #{performance,jdbcType=VARCHAR},
+      regdate = #{regdate,jdbcType=VARCHAR},
+      casecode = #{casecode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

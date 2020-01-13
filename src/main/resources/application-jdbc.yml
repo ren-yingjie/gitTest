@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.2.51:3306/zoomwant-test?allowMultiQueries=true&useAffectedRows=true
+    username: zw-test
+    password: abc@123
+    filters: config
+    connection-properties: config.decrypt=false
+    initial-size: 50
+    min-idle: 50
+    max-active: 200
+    max-wait: 60000
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    validation-query: SELECT 'x'
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    pool-prepared-statements: false
+    max-pool-prepared-statement-per-connection-size: 20
+
+mybatis:
+  type-aliases-package: com.zhongwang.data.bean
+  mapperLocations: classpath:mapper/*.xml

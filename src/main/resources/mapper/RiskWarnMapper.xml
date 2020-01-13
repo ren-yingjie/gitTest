@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongwang.data.dao.RiskWarnMapper" >
+
+    <select id="querybytj" resultType="com.zhongwang.data.entity.Risk.RiskWarnInfo" parameterType="com.zhongwang.data.entity.Risk.RiskWarnInfo" >
+        select '1' as type,'新增预警供应商' as info,count(1) as count from(
+        select DISTINCT id,supplier_id,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking from (
+        select  rish0.*,rish1.* from
+        (select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN
+        (select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))
+        rish1 on rish0.company_id=rish1.company_id1
+        ) rish where rish.supplier_id !=rish.supplier_id1
+        GROUP BY supplier_id ) aa
+        UNION
+        select '2' as type,'采购金额TOP10预警供应商' as info, count(1) as count from (
+        select  DISTINCT id,supplier_id as supplierid,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,add_time as addtime, '二个月' as zgdate
+        from suppliser_rish_info where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m') and purchasing_ranking &lt; 11 GROUP BY supplier_id ) aa
+        UNION
+        select '3' as type,'风险持续走高供应商' as info,count(1) as count from (
+        select DISTINCT id,supplier_id as supplierid,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,add_time as addtime, '二个月' as zgdate from (
+        select  rish0.*,rish1.* from(select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN(select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))  rish1 on rish0.company_id=rish1.company_id1 ) rish where rish.supplier_id=rish.supplier_id1 GROUP BY supplier_id  ) aa
+        UNION
+        select '4' as type,'新增预警高风险事件' as info,count(1) as count from  supplier_high_risk_info risk,supplier_info info where valid_sign=1 and  risk.company_id=#{companyId} and risk.supplier_id=info.supplier_id
+
+    </select>
+
+    <select id="querybyxzgys" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.Risk.AddRiskListInfo">
+      select DISTINCT id,supplier_id,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking from (
+            select  rish0.*,rish1.* from
+            (select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN
+            (select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))
+            rish1 on rish0.company_id=rish1.company_id1
+      ) rish where rish.supplier_id !=rish.supplier_id1
+      <if test="rishgrade!=null and rishgrade!=''">
+          and rish.rish_grade=#{rishgrade}
+      </if>
+       GROUP BY supplier_id  limit #{index},#{currentCount}
+    </select>
+
+    <select id="querybyxzgysCount" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="java.lang.Integer">
+    select count(1) from(
+        select DISTINCT id,supplier_id,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking from (
+                    select  rish0.*,rish1.* from
+                    (select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN
+                    (select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))
+                    rish1 on rish0.company_id=rish1.company_id1
+              ) rish where rish.supplier_id !=rish.supplier_id1
+                <if test="rishgrade!=null and rishgrade!=''">
+                    and rish.rish_grade=#{rishgrade}
+                </if>
+               GROUP BY supplier_id ) aa
+
+    </select>
+
+    <select id="querybytj2" resultType="com.zhongwang.data.entity.Risk.RiskWarnInfo" parameterType="com.zhongwang.data.entity.Risk.RiskWarnInfo">
+        select '1' as type,'风险预警供应商总数' as info,count(1) as count from suppliser_rish_info where company_id=#{companyId} and date_format(add_time,'%Y-%m') =date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+        UNION
+        select '2' as type,'预警高风险事件合计' as info,sum(warning_events) as count from suppliser_rish_info where company_id=#{companyId} and date_format(add_time,'%Y-%m') = date_format(now(),'%Y-%m') and rish_grade ='高'
+
+    </select>
+
+    <select id="queryfxdjfb" parameterType="com.zhongwang.data.entity.Risk.RiskLevelInfo" resultType="com.zhongwang.data.entity.Risk.RiskLevelInfo">
+        select rish_grade as rishgrade,count(1) as count from suppliser_rish_info where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m') GROUP BY rish_grade
+    </select>
+    
+    <select id="querycxzg" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.Risk.GoupInfo">
+
+         select DISTINCT id,supplier_id as supplierid,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,add_time as addtime, '二个月' as zgdate from (
+		 select  rish0.*,rish1.* from(select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN(select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))
+         rish1 on rish0.company_id=rish1.company_id1 ) rish where rish.supplier_id=rish.supplier_id1
+            <if test="rishgrade!=null and rishgrade!=''">
+                and rish.rish_grade=#{rishgrade}
+            </if>
+          GROUP BY supplier_id  limit #{index},#{currentCount}
+
+    </select>
+
+    <select id="querycxzgCount" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="java.lang.Integer">
+      select count(1) from (
+      select DISTINCT id,supplier_id as supplierid,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,add_time as addtime, '二个月' as zgdate from (
+		 select  rish0.*,rish1.* from(select * from suppliser_rish_info  where company_id=#{companyId} and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')) rish0 left JOIN(select company_id as company_id1,supplier_id as supplier_id1 from suppliser_rish_info where company_id=#{companyId} and  date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'))
+         rish1 on rish0.company_id=rish1.company_id1 ) rish where rish.supplier_id=rish.supplier_id1
+            <if test="rishgrade!=null and rishgrade!=''">
+                and rish.rish_grade=#{rishgrade}
+            </if>
+          GROUP BY supplier_id  ) aa
+
+    </select>
+
+    <select id="querycgqsfxgys" resultType="com.zhongwang.data.entity.Risk.GoupInfo" parameterType="com.zhongwang.data.entity.Risk.GoupInfo">
+        select  DISTINCT id,supplier_id as supplierid,supplier_name as suppliername,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,add_time as addtime, '二个月' as zgdate  from suppliser_rish_info where company_id=#{companyId}
+            <if test="rishgrade!=null and rishgrade!=''">
+                and rish_grade=#{rishgrade}
+            </if>
+        and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m') and purchasing_ranking &lt; 11 GROUP BY supplier_id
+    </select>
+
+    <select id="queryyjgysqst" parameterType="com.zhongwang.data.entity.fulfill.OperatingConditionsInfo" resultType="com.zhongwang.data.entity.fulfill.OperatingConditionsInfo">
+        select exponent.index_year_time as ofyear, exponent.supplier_index_type as type ,exponent.month1,exponent.month2,exponent.month3,exponent.month4,exponent.month5,exponent.month6,exponent.month7,exponent.month8,exponent.month9,exponent.month10,exponent.month11,exponent.month12,warning.sopplier_count_warning as soppliercountwarning from supplier_exponent_info exponent ,supplier_warning_info warning  where exponent.company_id=warning.company_id and exponent.company_id=#{companyId} and supplier_index_type=5 and index_year_time in (${ofyear})
+    </select>
+
+    <select id="queryfxgyshListCount" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="java.lang.Integer">
+        select count(1) from suppliser_rish_info where company_id=#{companyId}
+        <if test="rishstatus!=null and rishstatus!=''">
+            and rish_status=#{rishstatus}
+        </if>
+        <if test="rishgrade!=null and rishgrade!=''">
+            and rish_grade=#{rishgrade}
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and supplier_name  like '%${suppliername}%'
+        </if>
+        <if test="warningDateStart!=null and warningDateStart!=''">
+            and date_format(add_time,'%Y-%m-%d') &gt;= #{warningDateStart}
+        </if>
+        <if test="warningDateEnd!=null and warningDateEnd!=''">
+            and date_format(add_time,'%Y-%m-%d') &lt;= #{warningDateEnd}
+        </if>
+    </select>
+
+    <select id="queryfxgyshList" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.Risk.FxGyshList">
+        select id,supplier_id as supplierid,supplier_name as suppliername,add_time as addtime,rish_grade as rishgrade,rish_score as rishscore,warning_events as warningevents,purchasing_ranking as purchasingranking,rish_status as rishstatus from suppliser_rish_info
+        where company_id=#{companyId}
+        <if test="rishstatus!=null and rishstatus!=''">
+            and rish_status=#{rishstatus}
+        </if>
+        <if test="rishgrade!=null and rishgrade!=''">
+            and rish_grade=#{rishgrade}
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and supplier_name  like '%${suppliername}%'
+        </if>
+        <if test="warningDateStart!=null and warningDateStart!=''">
+            and date_format(add_time,'%Y-%m-%d') &gt;= #{warningDateStart}
+        </if>
+        <if test="warningDateEnd!=null and warningDateEnd!=''">
+            and date_format(add_time,'%Y-%m-%d') &lt;= #{warningDateEnd}
+        </if>
+         limit #{index},#{currentCount}
+    </select>
+
+    <select id="queryqyjbxx" parameterType="com.zhongwang.data.entity.fulfill.EnterpriseInfo" resultType="com.zhongwang.data.entity.fulfill.EnterpriseInfo">
+      select
+            supplier_name as suppliername,
+            creditCode,
+            legalPersonName,
+            companyOrgType,
+            regStatus,
+            toTime,
+            internal_rating as internalrating,
+            actualCapital,
+            industry,
+            regLocation,
+            business_address as businessaddress,
+            business_scope as businessscope,
+            percentileScore ,
+            description,
+            risk_state as riskstate
+        from supplier_info
+        where company_id=#{companyId}
+        <if test="suppliername!=null and suppliername!=''">
+            and supplier_name=#{suppliername}
+        </if>
+        <if test="supplierid!=null and supplierid!=''">
+            and supplier_id=#{supplierid}
+        </if>
+    </select>
+
+    <select id="queryjyzk" parameterType="com.zhongwang.data.entity.fulfill.OperatingConditionsInfo" resultType="com.zhongwang.data.entity.fulfill.OperatingConditionsInfo">
+        select index_year_time as ofyear,supplier_index_type as type,month1,month2,month3,month4,month5,month6,month7,month8,month9,month10,month11,month12  from supplier_exponent_info where company_id=#{companyId} and supplier_index_type=7 and index_year_time in (${ofyear})
+         UNION
+        select index_year_time as ofyear,supplier_index_type as type,month1,month2,month3,month4,month5,month6,month7,month8,month9,month10,month11,month12  from supplier_exponent_info where company_id=#{companyId} and supplier_index_type=8 and index_year_time in (${ofyear})
+    </select>
+
+    <select id="queryzdsswf" parameterType="com.zhongwang.data.entity.fulfill.MajorTaxViolations" resultType="com.zhongwang.data.entity.fulfill.MajorTaxViolations">
+        select id,supplier_name as suppliername,removeDepartment,putDate,putReason from supplier_zs0170 where company_id=#{companyId}
+        <if test="supplierid!=null and supplierid!=''">
+           and supplier_id=#{supplierid}
+        </if>
+    </select>
+
+    <select id="queryxzcf" resultType="com.zhongwang.data.entity.fulfill.AdministrativePenalties" parameterType="com.zhongwang.data.entity.fulfill.AdministrativePenalties">
+        select id,decision_date  as decisiondate,punish_number as punishnumber,content,department_name as departmentname from supplier_zs0026 where company_id=#{companyId}
+        <if test="supplierid!='' and supplierid!=null">
+            and supplier_id=#{supplierid}
+        </if>
+    </select>
+
+    <select id="querybzxrxx" resultType="com.zhongwang.data.entity.fulfill.ExecutedInfp" parameterType="com.zhongwang.data.entity.fulfill.ExecutedInfp">
+        select id,caseCreateTime,caseCode,execCourtName,execMoney from  supplier_zs0162 where company_id=#{companyId}
+        <if test="supplierid!='' and supplierid!=null">
+            and supplier_id=#{supplierid}
+        </if>
+    </select>
+
+    <select id="querysxxx" parameterType="com.zhongwang.data.entity.fulfill.BrokenPromiseInfo" resultType="com.zhongwang.data.entity.fulfill.BrokenPromiseInfo">
+        select id,businessentity,courtname,regdate,disrupttypename from supplier_zs0241 where company_id=#{companyId}
+        <if test="supplierid!='' and supplierid!=null">
+            and supplier_id=#{supplierid}
+        </if>
+    </select>
+
+    <select id="querysytjsj" resultType="com.zhongwang.data.entity.Risk.RiskWarnInfo" parameterType="com.zhongwang.data.entity.Risk.RiskWarnInfo">
+        select '1' as type ,count(1) as count, '风险预警' as info from suppliser_rish_info where company_id=#{companyId}
+            and rish_grade='高'
+            and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+            UNION
+            select '2' as type ,sum(warning_events) as count, '高风险事件' as info from suppliser_rish_info where company_id=#{companyId}
+            and rish_grade='高'
+            and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+    </select>
+
+    <select id="querygysfxdjfb" parameterType="com.zhongwang.data.entity.Risk.RiskWarnInfo" resultType="com.zhongwang.data.entity.Risk.RiskWarnInfo">
+        select rish_grade as info,count(1) as count from suppliser_rish_info where company_id=#{companyId}
+          and date_format(add_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+          GROUP BY rish_grade
+    </select>
+
+    <select id="queryyjgfxsjCount" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.Risk.PageBean" >
+        select count(1)
+        from  supplier_high_risk_info risk,supplier_info info
+        where
+        valid_sign=1
+        <if test="companyId!=null and companyId!=''">
+           and  risk.company_id=#{companyId}
+        </if>
+        and risk.supplier_id=info.supplier_id
+        <if test="riskeventtype!=null and riskeventtype!=''">
+            and risk_event_type=#{riskeventtype}
+        </if>
+        <if test="riskevent!=null and riskevent!=''">
+            and risk_event=#{riskevent}
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and supplier_name like '%${suppliername}%'
+        </if>
+
+    </select>
+
+    <select id="queryyjgfxsj" resultType="com.zhongwang.data.entity.highrisk.HighRiskEvent" parameterType="com.zhongwang.data.entity.Risk.PageBean" >
+        select risk.id,
+                     info.supplier_id as supplierid,
+                     risk.risk_event as riskevent,
+                     risk.risk_event_type as riskeventtype,
+                     info.supplier_name as suppliername,
+                     risk.add_time as addtime
+        from  supplier_high_risk_info risk,supplier_info info
+              where
+                    valid_sign=1
+                    <if test="companyId!=null and companyId!=''">
+                      and  risk.company_id=#{companyId}
+                    </if>
+                    and risk.supplier_id=info.supplier_id
+                    <if test="riskeventtype!=null and riskeventtype!=''">
+                    and risk_event_type=#{riskeventtype}
+                    </if>
+                    <if test="riskevent!=null and riskevent!=''">
+                    and risk_event=#{riskevent}
+                    </if>
+                    <if test="suppliername!=null and suppliername!=''">
+                    and supplier_name like '%${suppliername}%'
+                    </if>
+
+                    limit  #{index},#{currentCount}
+    </select>
+
+    <select id="queryqybzxrxx" resultType="com.zhongwang.data.entity.fulfill.ExecutedInfp" parameterType="com.zhongwang.data.entity.highrisk.HighRiskEvent">
+        select id,caseCreateTime,caseCode,execCourtName,execMoney from  supplier_zs0162 where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="queryqysxxx" parameterType="com.zhongwang.data.entity.highrisk.HighRiskEvent" resultType="com.zhongwang.data.entity.fulfill.BrokenPromiseInfo">
+        select id,businessentity,courtname,regdate,disrupttypename from supplier_zs0241 where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="queryqyfygg" parameterType="com.zhongwang.data.entity.highrisk.HighRiskEvent" resultType="com.zhongwang.data.entity.highrisk.CourtNotice">
+        select id,publishdate,courtcode,bltntype,content from supplier_zs0159 where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="querycsgjyj" resultType="com.zhongwang.data.entity.highrisk.TaxAlert" parameterType="com.zhongwang.data.entity.highrisk.TaxAlert" >
+        select id,risk_warning_detail as riskwarningdetail,risk_warning_type as type from supplier_high_risk_detail where company_id=#{companyId} and risk_warning_type=#{type} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="querycfyj" parameterType="com.zhongwang.data.entity.highrisk.PunishmentInfo" resultType="com.zhongwang.data.entity.highrisk.PunishmentInfo">
+         select id,decision_date as decisiondate,punish_number as punishnumber,content,department_name as departmentname from supplier_zs0026 where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="querywfyj" parameterType="com.zhongwang.data.entity.fulfill.MajorTaxViolations" resultType="com.zhongwang.data.entity.fulfill.MajorTaxViolations">
+        select id,supplier_name as suppliername,removeDepartment,putDate,putReason from supplier_zs0170 where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <select id="queryhmdyj" resultType="com.zhongwang.data.entity.highrisk.BlackList" parameterType="com.zhongwang.data.entity.highrisk.BlackList">
+        select id,assess_section as assesssection,case_brief as casebrief,assess_date as assessdate,subject_status as subjectstatus from supplier_joint_punish_info where company_id=#{companyId} and supplier_id=#{supplierid}
+    </select>
+
+    <update id="updateEvent" parameterType="com.zhongwang.data.entity.highrisk.HighRiskEvent">
+        update  supplier_high_risk_info set valid_sign=0 where company_id=#{companyId} and supplier_id=#{supplierid} and id=#{id}
+    </update>
+
+    <insert id="addhmd" parameterType="com.zhongwang.data.entity.SupplierInternalBlacklist">
+        insert into supplier_internal_blacklist ( company_id, uuid,supplier_id, supplier_name,reason, add_name)
+            values ( #{companyId}, #{uuid},#{supplierId}, #{supplierName},#{reason}, #{addName})
+    </insert>
+
+    <select id="queryyjpzCount" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.Risk.PageBean" >
+        select count(1)
+        from supplier_risk_warning_allocation
+        where company_id=#{companyId}
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+    </select>
+
+    <select id="queryyjpz" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.fulfill.EarlyWarningConfiguration">
+           select id,warning_events as warningevents,low_grade as lowgrade,high_grade as highgrade,status
+                from supplier_risk_warning_allocation
+                where company_id=#{companyId}
+                <if test="status!=null and status!=''">
+                    and status=#{status}
+                </if>
+                limit #{index},#{currentCount}
+    </select>
+
+    <insert id="addyjpz" parameterType="com.zhongwang.data.entity.fulfill.EarlyWarningConfiguration" >
+       insert into supplier_risk_warning_allocation(uuid,company_id,warning_events,low_grade,high_grade,status)
+       VALUES(#{uuid},#{companyId},#{warningevents},#{lowgrade},#{highgrade},#{status})
+    </insert>
+
+    <update id="updateyjpz" parameterType="com.zhongwang.data.entity.fulfill.EarlyWarningConfiguration" >
+       update supplier_risk_warning_allocation set
+        <if test="warningevents!=null and warningevents!=''">
+             warning_events=#{warningevents},
+        </if>
+        <if test="lowgrade!=null and lowgrade!=''">
+             low_grade=#{lowgrade},
+        </if>
+        <if test="highgrade!=null and highgrade!=''">
+             high_grade=#{highgrade},
+        </if>
+        <if test="status!=null and status!=''">
+             status=#{status},
+        </if>
+        update_time=now()
+       where company_id=#{companyId} and id=#{id}
+    </update>
+
+    <select id="queryjgglCount" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="java.lang.Integer">
+           select count(1) from (
+            select com1.id,com1.com_name as comname,com2.com_name as parentname,com1.add_time as addtime,com1.add_name as addname  from supplier_company_info com1 LEFT JOIN supplier_company_info com2 on com1.parent_id=com2.com_id ) aa
+            where
+             aa.comname like '%${comname}%'
+            <if test="parentname!=null and parentname!=''">
+                and aa.parentname like '%${parentname}%'
+            </if>
+    </select>
+
+    <select id="queryjggl" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.fulfill.InstitutionalManagement">
+       select aa.* from (
+        select com1.id,com1.com_name as comname,com2.com_name as parentname,com1.add_time as addtime,com1.add_name as addname,com1.com_id as comid,com1.parent_id as parentid  from supplier_company_info com1 LEFT JOIN supplier_company_info com2 on com1.parent_id=com2.com_id ) aa
+        where
+         aa.comname like '%${comname}%'
+         <if test="parentname!=null and parentname!=''">
+             and aa.parentname like '%${parentname}%'
+         </if>
+         limit #{index},#{currentCount}
+    </select>
+
+    <delete id="deleteqyjg" parameterType="com.zhongwang.data.entity.fulfill.InstitutionalManagement">
+        delete from supplier_company_info where id=#{id}
+    </delete>
+
+    <select id="queryjgxlk" parameterType="com.zhongwang.data.entity.fulfill.InstitutionalManagement" resultType="com.zhongwang.data.entity.fulfill.InstitutionalManagement">
+        select com_id as comid,com_name as comname from supplier_company_info
+    </select>
+
+    <insert id="addqyjg" parameterType="com.zhongwang.data.entity.fulfill.InstitutionalManagement">
+         INSERT into supplier_company_info(com_id,com_number,com_short_name,parent_id,com_name,add_time,add_name)
+          VALUES(#{comnumber},#{comnumber},#{comname},#{parentid},#{comname},now(),#{addname})
+    </insert>
+
+    <update id="updateqyjg" parameterType="com.zhongwang.data.entity.fulfill.InstitutionalManagement" >
+         update supplier_company_info set
+         parent_id=#{parentid},
+         update_time=now()
+         where id=#{id}
+    </update>
+
+    <select id="queryfxyjgyszb" resultType="com.zhongwang.data.entity.Risk.RiskWarnInfo" parameterType="com.zhongwang.data.entity.Risk.RiskWarnInfo">
+        select '1' as type,'正常' as info,count(1) as count from supplier_info where company_id=#{companyId} and date_format(add_time,'%Y-%m') = date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+        UNION
+        select '2' as type,'风险预警' as info,count(1) as count from suppliser_rish_info rish where company_id=#{companyId} and date_format(rish.add_time,'%Y-%m') = date_format(now(),'%Y-%m')
+    </select>
+
+    <select id="queryfxcllsCount" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.Risk.PageBean">
+        select  count(1)
+        from suppliser_rish_info
+        where company_id=#{companyId}
+        <if test="warningDateStart!=null and warningDateStart!=''">
+            and date_format(update_date,'%Y-%m-%d')  &gt;= #{warningDateStart}
+        </if>
+        <if test="warningDateEnd!=null and warningDateEnd!=''">
+            and date_format(update_date,'%Y-%m-%d')  &lt;= #{warningDateEnd}
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and supplier_name like '%${suppliername}%'
+        </if>
+    </select>
+
+    <select id="queryfxclls" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.Risk.FxGyshList" >
+        select  id,
+        supplier_name as suppliername,
+        add_time as addtime,
+        rish_status as rishstatus,
+        update_date as updatedate,
+        update_personnel  as updatepersonnel
+        from suppliser_rish_info
+        where company_id=#{companyId}
+        <if test="warningDateStart!=null and warningDateStart!=''">
+            and date_format(update_date,'%Y-%m-%d')  &gt;= #{warningDateStart}
+        </if>
+        <if test="warningDateEnd!=null and warningDateEnd!=''">
+        and date_format(update_date,'%Y-%m-%d')  &lt;= #{warningDateEnd}
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+        and supplier_name like '%${suppliername}%'
+        </if>
+        limit #{index},#{currentCount}
+    </select>
+
+    <select id="querygysly" parameterType="com.zhongwang.data.entity.Risk.PageBean" resultType="com.zhongwang.data.entity.fulfill.PerformanceIndex">
+       select  id,
+				supplier_id as supplierid,
+				supplier_name as suppliername,
+				add_time as addtime,
+				rish_grade as rishgrade,
+				perf_index as perfindex,
+				generate_reportdate as generatereportdate
+        from supplier_fulfill
+        where
+             company_id=#{companyId}
+             <if test="rishgrade!=null and rishgrade!=''" >
+                 and rish_grade=#{rishgrade}
+             </if>
+             <if test="suppliername!=null and suppliername!=''" >
+                 and supplier_name like '%${suppliername}%'
+             </if>
+        limit #{index},#{currentCount}
+    </select>
+
+    <select id="querygyslyCount" resultType="java.lang.Integer" parameterType="com.zhongwang.data.entity.Risk.PageBean">
+        select  count(1)
+        from supplier_fulfill
+        where
+        company_id=#{companyId}
+        <if test="rishgrade!=null and rishgrade!=''" >
+            and rish_grade=#{rishgrade}
+        </if>
+        <if test="suppliername!=null and suppliername!=''" >
+            and supplier_name like '%${suppliername}%'
+        </if>
+
+    </select>
+
+
+</mapper>
